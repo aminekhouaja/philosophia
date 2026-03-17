@@ -1,0 +1,1392 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Philosophia</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap"
+			rel="stylesheet" />
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: "Crimson Pro", serif;
+				background: #1a1108;
+				min-height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 1rem;
+			}
+			.phone {
+				width: 360px;
+				min-height: 720px;
+				background: #120d06;
+				border-radius: 36px;
+				border: 1px solid #3d2e18;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+			}
+			.screen {
+				display: none;
+				flex-direction: column;
+				flex: 1;
+			}
+			.screen.active {
+				display: flex;
+			}
+
+			.nav-bar {
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				padding: 12px 0 20px;
+				border-top: 1px solid #2a1e0e;
+				background: #120d06;
+				flex-shrink: 0;
+			}
+			.nav-btn {
+				background: none;
+				border: none;
+				cursor: pointer;
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				font-weight: 300;
+				letter-spacing: 1.5px;
+				color: #5c4a2e;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 5px;
+				text-transform: uppercase;
+			}
+			.nav-btn.active {
+				color: #c4923a;
+			}
+			.nav-btn svg {
+				width: 18px;
+				height: 18px;
+			}
+
+			.tag {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				letter-spacing: 2.5px;
+				text-transform: uppercase;
+				color: #6b5232;
+				margin-bottom: 10px;
+			}
+			.divider {
+				width: 100%;
+				height: 1px;
+				background: linear-gradient(
+					to right,
+					transparent,
+					#2a1e0e,
+					#3d2e18,
+					#2a1e0e,
+					transparent
+				);
+				margin: 20px 0;
+			}
+
+			.btn-dark {
+				width: 100%;
+				background: #3d2e18;
+				color: #ede0c8;
+				border: none;
+				border-radius: 8px;
+				padding: 14px;
+				font-family: "EB Garamond", serif;
+				font-size: 16px;
+				cursor: pointer;
+				margin-top: 6px;
+			}
+			.btn-ghost {
+				width: 100%;
+				background: transparent;
+				color: #6b5232;
+				border: 1px solid #2a1e0e;
+				border-radius: 8px;
+				padding: 13px;
+				font-family: "Crimson Pro", serif;
+				font-size: 15px;
+				font-style: italic;
+				cursor: pointer;
+				margin-top: 6px;
+			}
+			.btn-amber {
+				width: 100%;
+				background: #5c3d12;
+				color: #ede0c8;
+				border: none;
+				border-radius: 8px;
+				padding: 15px;
+				font-family: "EB Garamond", serif;
+				font-size: 17px;
+				cursor: pointer;
+				margin-top: 12px;
+			}
+			.btn-amber:disabled {
+				opacity: 0.4;
+				cursor: not-allowed;
+			}
+			.field {
+				width: 100%;
+				background: #1c1408;
+				border: 1px solid #2a1e0e;
+				border-radius: 8px;
+				padding: 13px 16px;
+				font-family: "Crimson Pro", serif;
+				font-size: 15px;
+				color: #c4a882;
+				margin-bottom: 10px;
+				outline: none;
+			}
+			.field:focus {
+				border-color: #5c4a2e;
+			}
+			.field::placeholder {
+				color: #4a3820;
+			}
+
+			.s1 {
+				padding: 52px 32px 32px;
+				justify-content: space-between;
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+			}
+			.s1-logo {
+				font-family: "EB Garamond", serif;
+				font-size: 11px;
+				letter-spacing: 5px;
+				text-transform: uppercase;
+				color: #c4923a;
+				margin-bottom: 32px;
+			}
+			.s1-title {
+				font-family: "EB Garamond", serif;
+				font-size: 44px;
+				line-height: 1.1;
+				color: #ede0c8;
+			}
+			.s1-title em {
+				font-style: italic;
+				color: #c4923a;
+			}
+			.s1-sub {
+				margin-top: 14px;
+				font-size: 16px;
+				line-height: 1.7;
+				color: #7a6040;
+				font-style: italic;
+			}
+			.tab-row {
+				display: flex;
+				border: 1px solid #2a1e0e;
+				border-radius: 8px;
+				overflow: hidden;
+				margin-bottom: 16px;
+			}
+			.tab-btn {
+				flex: 1;
+				background: transparent;
+				border: none;
+				padding: 10px;
+				font-family: "DM Mono", monospace;
+				font-size: 10px;
+				letter-spacing: 1px;
+				color: #5c4a2e;
+				cursor: pointer;
+				text-transform: uppercase;
+			}
+			.tab-btn.active {
+				background: #3d2e18;
+				color: #c4923a;
+			}
+
+			.s2-scroll {
+				flex: 1;
+				overflow-y: auto;
+				padding: 48px 24px 16px;
+			}
+			.s2-groupname {
+				font-family: "EB Garamond", serif;
+				font-size: 22px;
+				color: #ede0c8;
+			}
+			.s2-meta {
+				font-size: 13px;
+				color: #5c4a2e;
+				font-style: italic;
+				margin-bottom: 16px;
+			}
+			.group-code-box {
+				background: #1c1408;
+				border: 1px solid #2a1e0e;
+				border-radius: 8px;
+				padding: 10px 14px;
+				margin-bottom: 16px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			.group-code-label {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				color: #5c4a2e;
+				letter-spacing: 1.5px;
+				text-transform: uppercase;
+			}
+			.group-code-val {
+				font-family: "DM Mono", monospace;
+				font-size: 13px;
+				color: #c4923a;
+				letter-spacing: 2px;
+				cursor: pointer;
+			}
+			.question-block {
+				border-left: 2px solid #5c4a2e;
+				padding: 20px 20px 20px 22px;
+				background: #180f05;
+				border-radius: 0 10px 10px 0;
+				position: relative;
+				margin: 0 0 20px;
+			}
+			.q-guillemet {
+				font-family: "EB Garamond", serif;
+				font-size: 60px;
+				color: #2a1e0e;
+				position: absolute;
+				top: -10px;
+				left: 10px;
+				line-height: 1;
+			}
+			.q-text {
+				font-family: "EB Garamond", serif;
+				font-size: 20px;
+				line-height: 1.55;
+				color: #d4bfa0;
+				font-style: italic;
+				position: relative;
+				z-index: 1;
+			}
+			.q-timer {
+				margin-top: 12px;
+				font-family: "DM Mono", monospace;
+				font-size: 10px;
+				color: #5c4a2e;
+				letter-spacing: 1px;
+			}
+			.members-title {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				letter-spacing: 2px;
+				color: #5c4a2e;
+				text-transform: uppercase;
+				margin-bottom: 10px;
+			}
+			.member-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 9px 0;
+				border-bottom: 1px solid #1c1408;
+			}
+			.member-name {
+				font-size: 15px;
+				color: #c4a882;
+			}
+			.badge-done {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				letter-spacing: 1px;
+				color: #c4923a;
+				border: 1px solid #3d2e18;
+				border-radius: 4px;
+				padding: 2px 7px;
+				text-transform: uppercase;
+			}
+			.badge-wait {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				color: #3d2e18;
+				border: 1px solid #2a1e0e;
+				border-radius: 4px;
+				padding: 2px 7px;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+
+			.s3-header {
+				padding: 48px 24px 18px;
+				border-bottom: 1px solid #1c1408;
+				flex-shrink: 0;
+			}
+			.back-btn {
+				background: none;
+				border: none;
+				cursor: pointer;
+				font-family: "DM Mono", monospace;
+				font-size: 10px;
+				color: #5c4a2e;
+				letter-spacing: 1px;
+				padding: 0;
+				margin-bottom: 16px;
+				text-transform: uppercase;
+				display: block;
+			}
+			.s3-q {
+				font-family: "EB Garamond", serif;
+				font-size: 16px;
+				font-style: italic;
+				color: #7a6040;
+				line-height: 1.5;
+			}
+			.s3-body {
+				flex: 1;
+				padding: 20px 24px;
+				position: relative;
+				overflow: hidden;
+			}
+			.lines-bg {
+				position: absolute;
+				inset: 0;
+				pointer-events: none;
+				background-image: repeating-linear-gradient(
+					transparent,
+					transparent 29px,
+					#1c1408 29px,
+					#1c1408 30px
+				);
+				background-position: 0 24px;
+				opacity: 0.6;
+			}
+			.note-ta {
+				width: 100%;
+				min-height: 280px;
+				background: transparent;
+				border: none;
+				outline: none;
+				resize: none;
+				font-family: "Crimson Pro", serif;
+				font-size: 17px;
+				line-height: 30px;
+				color: #c4a882;
+				position: relative;
+				z-index: 1;
+			}
+			.note-ta::placeholder {
+				color: #2a1e0e;
+			}
+			.s3-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 12px 24px 24px;
+				border-top: 1px solid #1c1408;
+				flex-shrink: 0;
+			}
+			.word-count {
+				font-family: "DM Mono", monospace;
+				font-size: 10px;
+				color: #3d2e18;
+				letter-spacing: 1px;
+			}
+			.btn-submit {
+				background: #5c3d12;
+				color: #ede0c8;
+				border: none;
+				border-radius: 7px;
+				padding: 10px 20px;
+				font-family: "EB Garamond", serif;
+				font-size: 15px;
+				cursor: pointer;
+			}
+
+			.s4-header {
+				padding: 48px 24px 16px;
+				flex-shrink: 0;
+			}
+			.s4-title {
+				font-family: "EB Garamond", serif;
+				font-size: 26px;
+				color: #ede0c8;
+				margin-bottom: 2px;
+			}
+			.s4-sub {
+				font-size: 13px;
+				color: #5c4a2e;
+				font-style: italic;
+			}
+			.s4-scroll {
+				flex: 1;
+				overflow-y: auto;
+				padding: 0 20px 20px;
+			}
+			.s4-q-recap {
+				background: #180f05;
+				border: 1px solid #2a1e0e;
+				border-radius: 10px;
+				padding: 16px 18px;
+				margin-bottom: 16px;
+				font-family: "EB Garamond", serif;
+				font-size: 16px;
+				font-style: italic;
+				color: #7a6040;
+				line-height: 1.5;
+			}
+			.responses-label {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				letter-spacing: 2.5px;
+				text-transform: uppercase;
+				color: #5c4a2e;
+				margin-bottom: 10px;
+			}
+			.resp-card {
+				border-bottom: 1px solid #1c1408;
+				padding: 12px 0;
+			}
+			.resp-name {
+				font-family: "DM Mono", monospace;
+				font-size: 10px;
+				letter-spacing: 1.5px;
+				color: #c4923a;
+				text-transform: uppercase;
+				margin-bottom: 6px;
+			}
+			.resp-text {
+				font-size: 15px;
+				line-height: 1.7;
+				color: #9a7e5a;
+				font-style: italic;
+			}
+			.ai-block {
+				background: #1c1408;
+				border: 1px solid #3d2e18;
+				border-radius: 12px;
+				padding: 22px 20px;
+				margin-top: 20px;
+			}
+			.ai-header {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin-bottom: 16px;
+			}
+			.ai-icon {
+				width: 28px;
+				height: 28px;
+				border-radius: 50%;
+				background: #3d2e18;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 13px;
+				flex-shrink: 0;
+			}
+			.ai-title-text {
+				font-family: "EB Garamond", serif;
+				font-size: 15px;
+				color: #c4923a;
+			}
+			.ai-subtitle {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				color: #5c4a2e;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+			}
+			.ai-section {
+				margin-bottom: 18px;
+			}
+			.ai-section-label {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				letter-spacing: 2px;
+				text-transform: uppercase;
+				color: #6b5232;
+				margin-bottom: 8px;
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+			.ai-section-label::after {
+				content: "";
+				flex: 1;
+				height: 1px;
+				background: #2a1e0e;
+			}
+			.ai-section-text {
+				font-family: "Crimson Pro", serif;
+				font-size: 15px;
+				line-height: 1.75;
+				color: #c4a882;
+			}
+			.philo-row {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 6px;
+				margin-top: 16px;
+			}
+			.philo-chip {
+				background: #241908;
+				border: 1px solid #3d2e18;
+				border-radius: 6px;
+				padding: 5px 11px;
+				font-family: "EB Garamond", serif;
+				font-size: 13px;
+				color: #8a6a40;
+				font-style: italic;
+			}
+
+			.s5-scroll {
+				flex: 1;
+				overflow-y: auto;
+				padding: 48px 24px 20px;
+			}
+			.hist-card {
+				background: #180f05;
+				border: 1px solid #2a1e0e;
+				border-radius: 10px;
+				padding: 16px 18px;
+				margin-bottom: 12px;
+				cursor: pointer;
+			}
+			.hist-date {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				letter-spacing: 2px;
+				color: #5c4a2e;
+				text-transform: uppercase;
+				margin-bottom: 8px;
+			}
+			.hist-q {
+				font-family: "EB Garamond", serif;
+				font-size: 15px;
+				font-style: italic;
+				color: #9a7e5a;
+				line-height: 1.5;
+			}
+			.hist-meta {
+				font-family: "DM Mono", monospace;
+				font-size: 9px;
+				color: #3d2e18;
+				margin-top: 8px;
+				letter-spacing: 1px;
+			}
+			.history-empty {
+				text-align: center;
+				padding: 48px 0;
+				font-family: "EB Garamond", serif;
+				font-size: 18px;
+				font-style: italic;
+				color: #3d2e18;
+				line-height: 1.6;
+			}
+
+			.ai-loading {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 32px 0;
+				gap: 12px;
+			}
+			.ai-loading-dots {
+				display: flex;
+				gap: 6px;
+			}
+			.dot {
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background: #5c4a2e;
+				animation: pulse 1.2s ease-in-out infinite;
+			}
+			.dot:nth-child(2) {
+				animation-delay: 0.2s;
+			}
+			.dot:nth-child(3) {
+				animation-delay: 0.4s;
+			}
+			@keyframes pulse {
+				0%,
+				80%,
+				100% {
+					opacity: 0.3;
+					transform: scale(0.8);
+				}
+				40% {
+					opacity: 1;
+					transform: scale(1);
+				}
+			}
+			.ai-loading-text {
+				font-family: "DM Mono", monospace;
+				font-size: 10px;
+				color: #5c4a2e;
+				letter-spacing: 1.5px;
+				text-transform: uppercase;
+			}
+			.error-text {
+				font-family: "Crimson Pro", serif;
+				font-size: 14px;
+				color: #8a4a2e;
+				font-style: italic;
+				text-align: center;
+				padding: 16px;
+				line-height: 1.6;
+			}
+
+			.toast {
+				position: fixed;
+				bottom: 32px;
+				left: 50%;
+				transform: translateX(-50%);
+				background: #3d2e18;
+				color: #ede0c8;
+				font-family: "DM Mono", monospace;
+				font-size: 11px;
+				letter-spacing: 1px;
+				padding: 10px 20px;
+				border-radius: 20px;
+				opacity: 0;
+				transition: opacity 0.3s;
+				pointer-events: none;
+				z-index: 999;
+				white-space: nowrap;
+			}
+			.toast.show {
+				opacity: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="phone">
+			<!-- S1 : Accueil -->
+			<div class="screen active" id="s-welcome">
+				<div class="s1">
+					<div>
+						<p class="s1-logo">✦ Philosophia</p>
+						<h1 class="s1-title">
+							Réfléchis.<br /><em>Partage.</em><br />Évolue.
+						</h1>
+						<p class="s1-sub">
+							Un carnet quotidien de pensées partagées entre amis.
+						</p>
+						<div class="divider"></div>
+						<input
+							class="field"
+							id="pseudo"
+							type="text"
+							placeholder="Ton prénom ou pseudo" />
+						<div class="tab-row">
+							<button
+								class="tab-btn active"
+								id="tab-join"
+								onclick="switchTab('join')">
+								Rejoindre
+							</button>
+							<button
+								class="tab-btn"
+								id="tab-create"
+								onclick="switchTab('create')">
+								Créer
+							</button>
+						</div>
+						<div id="join-form">
+							<input
+								class="field"
+								id="join-code"
+								type="text"
+								placeholder="Code du groupe  ·  ex: AGORA-42"
+								style="text-transform: uppercase; letter-spacing: 2px" />
+							<button class="btn-dark" onclick="joinGroup()">
+								Rejoindre →
+							</button>
+						</div>
+						<div id="create-form" style="display: none">
+							<input
+								class="field"
+								id="group-name-input"
+								type="text"
+								placeholder="Nom du groupe" />
+							<button class="btn-dark" onclick="createGroup()">
+								Créer le groupe →
+							</button>
+						</div>
+					</div>
+					<p
+						style="
+							font-family: &quot;DM Mono&quot;, monospace;
+							font-size: 9px;
+							color: #2a1e0e;
+							text-align: center;
+							letter-spacing: 2px;
+							text-transform: uppercase;
+						">
+						La question t'attend
+					</p>
+				</div>
+			</div>
+
+			<!-- S2 : Groupe -->
+			<div class="screen" id="s-group">
+				<div class="s2-scroll">
+					<p class="tag" id="today-date"></p>
+					<div
+						style="
+							display: flex;
+							justify-content: space-between;
+							align-items: baseline;
+							margin-bottom: 4px;
+						">
+						<h2 class="s2-groupname" id="group-display-name">—</h2>
+						<span style="font-size: 14px; color: #5c4a2e"
+							>✦ <span id="member-count">0</span></span
+						>
+					</div>
+					<p class="s2-meta">Question du jour</p>
+					<div class="group-code-box">
+						<span class="group-code-label">Code du groupe</span>
+						<span
+							class="group-code-val"
+							id="group-code-display"
+							onclick="copyCode()"
+							>— —</span
+						>
+					</div>
+					<div class="question-block">
+						<span class="q-guillemet">"</span>
+						<div id="q-content">
+							<div class="ai-loading" style="padding: 12px 0">
+								<div class="ai-loading-dots">
+									<div class="dot"></div>
+									<div class="dot"></div>
+									<div class="dot"></div>
+								</div>
+								<span
+									style="
+										font-family: &quot;DM Mono&quot;, monospace;
+										font-size: 10px;
+										color: #5c4a2e;
+										letter-spacing: 1px;
+									"
+									>Génération…</span
+								>
+							</div>
+						</div>
+					</div>
+					<p class="members-title">Membres</p>
+					<div id="members-list"></div>
+					<button
+						class="btn-amber"
+						id="btn-write"
+						onclick="go('s-note')"
+						disabled>
+						Écrire ma réflexion →
+					</button>
+				</div>
+				<div class="nav-bar">
+					<button class="nav-btn" onclick="go('s-welcome')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path
+								d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" /></svg
+						>Accueil
+					</button>
+					<button class="nav-btn active">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<circle cx="12" cy="12" r="9" />
+							<path d="M12 8v4l3 3" /></svg
+						>Groupe
+					</button>
+					<button class="nav-btn" onclick="go('s-result')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path d="M4 6h16M4 12h16M4 18h10" /></svg
+						>Synthèse
+					</button>
+					<button class="nav-btn" onclick="go('s-history')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path d="M12 8v4l2 2m6-2a8 8 0 11-16 0 8 8 0 0116 0z" /></svg
+						>Historique
+					</button>
+				</div>
+			</div>
+
+			<!-- S3 : Note -->
+			<div class="screen" id="s-note">
+				<div class="s3-header">
+					<button class="back-btn" onclick="go('s-group')">← Retour</button>
+					<p class="s3-q" id="note-question-display"></p>
+				</div>
+				<div class="s3-body">
+					<div class="lines-bg"></div>
+					<textarea
+						class="note-ta"
+						id="my-note"
+						placeholder="Ta pensée commence ici…"
+						oninput="wc(this)"></textarea>
+				</div>
+				<div class="s3-footer">
+					<span class="word-count" id="wc">0 mots</span>
+					<button class="btn-submit" onclick="submitNote()">Soumettre ✦</button>
+				</div>
+			</div>
+
+			<!-- S4 : Résultats -->
+			<div class="screen" id="s-result">
+				<div class="s4-header">
+					<p class="tag">Synthèse du jour</p>
+					<h2 class="s4-title">Réflexions du groupe</h2>
+					<p class="s4-sub" id="result-sub">—</p>
+				</div>
+				<div class="s4-scroll">
+					<div class="s4-q-recap" id="result-question"></div>
+					<p class="responses-label">Ce que le groupe a écrit</p>
+					<div id="responses-list"></div>
+					<div class="ai-block">
+						<div class="ai-header">
+							<div class="ai-icon">✦</div>
+							<div>
+								<p class="ai-title-text">Analyse Philosophia</p>
+								<p class="ai-subtitle" id="ai-subtitle">En attente</p>
+							</div>
+						</div>
+						<div id="ai-content">
+							<div style="text-align: center; padding: 16px 0">
+								<button
+									class="btn-amber"
+									style="width: auto; padding: 12px 24px; font-size: 15px"
+									onclick="generateAnalysis()">
+									✦ Générer l'analyse IA
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="nav-bar">
+					<button class="nav-btn" onclick="go('s-welcome')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path
+								d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" /></svg
+						>Accueil
+					</button>
+					<button class="nav-btn" onclick="go('s-group')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<circle cx="12" cy="12" r="9" />
+							<path d="M12 8v4l3 3" /></svg
+						>Groupe
+					</button>
+					<button class="nav-btn active">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path d="M4 6h16M4 12h16M4 18h10" /></svg
+						>Synthèse
+					</button>
+					<button class="nav-btn" onclick="go('s-history')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path d="M12 8v4l2 2m6-2a8 8 0 11-16 0 8 8 0 0116 0z" /></svg
+						>Historique
+					</button>
+				</div>
+			</div>
+
+			<!-- S5 : Historique -->
+			<div class="screen" id="s-history">
+				<div class="s5-scroll">
+					<p class="tag">Carnet de bord</p>
+					<h2
+						style="
+							font-family: &quot;EB Garamond&quot;, serif;
+							font-size: 26px;
+							color: #ede0c8;
+							margin-bottom: 4px;
+						">
+						Historique
+					</h2>
+					<p
+						style="
+							font-size: 13px;
+							color: #5c4a2e;
+							font-style: italic;
+							margin-bottom: 20px;
+						">
+						Tes réflexions passées
+					</p>
+					<div id="history-list"></div>
+				</div>
+				<div class="nav-bar">
+					<button class="nav-btn" onclick="go('s-welcome')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path
+								d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" /></svg
+						>Accueil
+					</button>
+					<button class="nav-btn" onclick="go('s-group')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<circle cx="12" cy="12" r="9" />
+							<path d="M12 8v4l3 3" /></svg
+						>Groupe
+					</button>
+					<button class="nav-btn" onclick="go('s-result')">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path d="M4 6h16M4 12h16M4 18h10" /></svg
+						>Synthèse
+					</button>
+					<button class="nav-btn active">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5">
+							<path d="M12 8v4l2 2m6-2a8 8 0 11-16 0 8 8 0 0116 0z" /></svg
+						>Historique
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="toast" id="toast"></div>
+
+		<script>
+			// ── PROXY URL ── (clé sécurisée dans Cloudflare)
+			const PROXY_URL = "https://philosophia-proxy.mohamedamine-khouaja.workers.dev";
+
+			// ── HELPER : appel via proxy Cloudflare ──
+			async function callGemini(prompt, maxTokens = 1000) {
+				const res = await fetch(PROXY_URL, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						contents: [{ parts: [{ text: prompt }] }],
+						generationConfig: { maxOutputTokens: maxTokens },
+					}),
+				});
+				const data = await res.json();
+				if (data.error) throw new Error(data.error.message);
+				return data.candidates[0].content.parts[0].text.trim();
+			}
+
+
+			// ── STORAGE ──
+			const LS = {
+				get: (k) => {
+					try {
+						return JSON.parse(localStorage.getItem(k));
+					} catch {
+						return null;
+					}
+				},
+				set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+			};
+
+			// ── STATE ──
+			let S = LS.get("philo_v2") || {
+				myName: "",
+				group: null,
+				today: null,
+				history: [],
+			};
+			function save() {
+				LS.set("philo_v2", S);
+			}
+
+			// ── INIT ──
+			window.addEventListener("DOMContentLoaded", () => {
+				const d = new Date();
+				document.getElementById("today-date").textContent =
+					d.toLocaleDateString("fr-FR", {
+						weekday: "long",
+						day: "numeric",
+						month: "long",
+						year: "numeric",
+					});
+				if (S.myName) document.getElementById("pseudo").value = S.myName;
+				if (S.group) {
+					renderGroup();
+					const todayKey = new Date().toISOString().split("T")[0];
+					if (!S.today || S.today.date !== todayKey) startNewDay();
+					else {
+						renderQuestion();
+						renderMembers();
+						renderResults();
+					}
+					go("s-group");
+				}
+				renderHistory();
+			});
+
+			// ── NAV ──
+			function go(id) {
+				document
+					.querySelectorAll(".screen")
+					.forEach((s) => s.classList.remove("active"));
+				document.getElementById(id).classList.add("active");
+				if (id === "s-result") renderResults();
+				if (id === "s-history") renderHistory();
+			}
+
+			// ── TABS ──
+			function switchTab(tab) {
+				document
+					.getElementById("tab-join")
+					.classList.toggle("active", tab === "join");
+				document
+					.getElementById("tab-create")
+					.classList.toggle("active", tab === "create");
+				document.getElementById("join-form").style.display =
+					tab === "join" ? "block" : "none";
+				document.getElementById("create-form").style.display =
+					tab === "create" ? "block" : "none";
+			}
+
+			// ── GROUPE ──
+			const CODES = [
+				"LOGOS",
+				"AGORA",
+				"POLIS",
+				"NOUS",
+				"DOXA",
+				"EIDOS",
+				"TELOS",
+				"ARCHE",
+				"KALOS",
+				"ETHOS",
+			];
+			function genCode() {
+				return (
+					CODES[Math.floor(Math.random() * CODES.length)] +
+					"-" +
+					(10 + Math.floor(Math.random() * 90))
+				);
+			}
+
+			function createGroup() {
+				const name =
+					document.getElementById("group-name-input").value.trim() ||
+					"Mon groupe";
+				const pseudo =
+					document.getElementById("pseudo").value.trim() || "Anonyme";
+				S.myName = pseudo;
+				S.group = {
+					name,
+					code: genCode(),
+					members: [{ name: pseudo, isMe: true }],
+				};
+				S.today = null;
+				save();
+				renderGroup();
+				startNewDay();
+				go("s-group");
+			}
+
+			function joinGroup() {
+				const code = document
+					.getElementById("join-code")
+					.value.trim()
+					.toUpperCase();
+				const pseudo =
+					document.getElementById("pseudo").value.trim() || "Anonyme";
+				if (!code) {
+					toast("Entre un code de groupe");
+					return;
+				}
+				S.myName = pseudo;
+				S.group = {
+					name: "Groupe " + code,
+					code,
+					members: [
+						{ name: "Yasmine", isMe: false },
+						{ name: "Karim", isMe: false },
+						{ name: pseudo, isMe: true },
+					],
+				};
+				S.today = null;
+				save();
+				renderGroup();
+				startNewDay();
+				go("s-group");
+			}
+
+			function renderGroup() {
+				if (!S.group) return;
+				document.getElementById("group-display-name").textContent =
+					S.group.name;
+				document.getElementById("group-code-display").textContent =
+					S.group.code;
+				document.getElementById("member-count").textContent =
+					S.group.members.length;
+			}
+
+			function copyCode() {
+				if (!S.group) return;
+				navigator.clipboard.writeText(S.group.code).catch(() => {});
+				toast("Code copié : " + S.group.code);
+			}
+
+			// ── QUESTION DU JOUR ──
+			async function startNewDay() {
+				const todayKey = new Date().toISOString().split("T")[0];
+				if (S.today && S.today.date !== todayKey) {
+					S.history.unshift(S.today);
+					if (S.history.length > 60) S.history.pop();
+				}
+				S.today = {
+					date: todayKey,
+					question: null,
+					responses: [],
+					analysis: null,
+				};
+				save();
+
+				document.getElementById("q-content").innerHTML =
+					`<div class="ai-loading" style="padding:12px 0"><div class="ai-loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><span style="font-family:'DM Mono',monospace;font-size:10px;color:#5C4A2E;letter-spacing:1px">Génération de la question…</span></div>`;
+				document.getElementById("btn-write").disabled = true;
+
+				const past = S.history
+					.map((h) => h.question)
+					.filter(Boolean)
+					.slice(0, 10);
+				const avoid = past.length
+					? `\nNe répète pas ces thèmes : ${past.join(" / ")}`
+					: "";
+				try {
+					const prompt = `Génère UNE question philosophique pour des adolescents de 14-20 ans.\nCritères : accessible, profonde, liée à leur vie quotidienne, sans jargon, ouverte, 10-20 mots.${avoid}\nRéponds UNIQUEMENT avec la question, sans guillemets ni ponctuation finale.`;
+					const q = (await callGemini(prompt, 150))
+						.replace(/^["«»"]+|["«»"]+$/g, "")
+						.replace(/\?$/, "");
+					S.today.question = q;
+					S.today.question = q;
+					save();
+					renderQuestion();
+					renderMembers();
+				} catch (e) {
+					document.getElementById("q-content").innerHTML =
+						`<p style="font-family:'EB Garamond',serif;font-size:14px;font-style:italic;color:#8A4A2E;padding:8px 0;position:relative;z-index:1">Erreur : ${e.message}</p><button class="btn-ghost" style="margin-top:8px;position:relative;z-index:1" onclick="startNewDay()">Réessayer</button>`;
+				}
+			}
+
+			function renderQuestion() {
+				if (!S.today?.question) return;
+				document.getElementById("q-content").innerHTML =
+					`<p class="q-text">${S.today.question}&nbsp;?</p><p class="q-timer">⏳ &nbsp;${new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</p>`;
+				document.getElementById("note-question-display").textContent =
+					"« " + S.today.question + " ? »";
+				document.getElementById("btn-write").disabled = false;
+				const mine = S.today.responses.find((r) => r.isMe);
+				if (mine) document.getElementById("my-note").value = mine.text;
+			}
+
+			// ── MEMBRES ──
+			function renderMembers() {
+				if (!S.group) return;
+				document.getElementById("members-list").innerHTML = S.group.members
+					.map((m) => {
+						const done = S.today?.responses.find((r) => r.name === m.name);
+						return `<div class="member-row"><span class="member-name">${m.name}${m.isMe ? " (moi)" : ""}</span><span class="${done ? "badge-done" : "badge-wait"}">${done ? "Répondu" : "En attente"}</span></div>`;
+					})
+					.join("");
+			}
+
+			// ── NOTE ──
+			function wc(el) {
+				const n = el.value
+					.trim()
+					.split(/\s+/)
+					.filter((w) => w).length;
+				document.getElementById("wc").textContent =
+					n + (n <= 1 ? " mot" : " mots");
+			}
+
+			function submitNote() {
+				const note = document.getElementById("my-note").value.trim();
+				if (!note) {
+					toast("Écris quelque chose d'abord");
+					return;
+				}
+				S.today.responses = S.today.responses.filter((r) => !r.isMe);
+				S.today.responses.push({
+					name: S.myName || "Moi",
+					text: note,
+					isMe: true,
+				});
+				save();
+				renderMembers();
+				toast("Réflexion enregistrée ✦");
+				go("s-result");
+			}
+
+			// ── RÉSULTATS ──
+			function renderResults() {
+				if (!S.today) return;
+				document.getElementById("result-question").textContent =
+					"« " + (S.today.question || "…") + " ? »";
+				document.getElementById("result-sub").textContent =
+					S.today.responses.length +
+					" réponse" +
+					(S.today.responses.length > 1 ? "s" : "") +
+					" · " +
+					new Date(S.today.date).toLocaleDateString("fr-FR", {
+						day: "numeric",
+						month: "long",
+					});
+				document.getElementById("responses-list").innerHTML = S.today.responses
+					.length
+					? S.today.responses
+							.map(
+								(r) =>
+									`<div class="resp-card"><p class="resp-name">${r.name}</p><p class="resp-text">${r.text}</p></div>`,
+							)
+							.join("")
+					: "<p style=\"font-family:'Crimson Pro',serif;font-size:15px;color:#3D2E18;font-style:italic;padding:12px 0\">Aucune réponse pour l'instant.</p>";
+				if (S.today.analysis) renderAnalysis(S.today.analysis);
+				else {
+					document.getElementById("ai-content").innerHTML =
+						`<div style="text-align:center;padding:16px 0"><button class="btn-amber" style="width:auto;padding:12px 24px;font-size:15px" onclick="generateAnalysis()">✦ Générer l'analyse IA</button></div>`;
+					document.getElementById("ai-subtitle").textContent = "En attente";
+				}
+			}
+
+			// ── ANALYSE IA ──
+			async function generateAnalysis() {
+				if (!S.today?.responses.length) {
+					toast("Aucune réponse à analyser");
+					return;
+				}
+				const rt = S.today.responses
+					.map((r) => `- ${r.name} : "${r.text}"`)
+					.join("\n");
+				document.getElementById("ai-content").innerHTML =
+					`<div class="ai-loading"><div class="ai-loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><p class="ai-loading-text">Claude réfléchit…</p></div>`;
+				document.getElementById("ai-subtitle").textContent =
+					"Analyse en cours…";
+				try {
+					const prompt = `Tu es un professeur de philosophie bienveillant pour des adolescents (14-20 ans).\n\nQuestion : "${S.today.question} ?"\nRéponses :\n${rt}\n\nRéponds UNIQUEMENT en JSON valide, sans markdown ni backticks :\n{"synthese":"2-3 phrases sur les tendances du groupe","points_de_vue":[{"philosophe":"Nom","courant":"courant","analyse":"2 phrases simples"},{"philosophe":"Nom","courant":"courant","analyse":"2 phrases simples"},{"philosophe":"Nom","courant":"courant","analyse":"2 phrases simples"}],"tension_principale":"1 phrase sur la tension centrale","pour_aller_plus_loin":"1 question provocatrice"}`;
+					const parsed = JSON.parse((await callGemini(prompt, 1000)).replace(/```json|```/g, "").trim());
+					S.today.analysis = parsed;
+					save();
+					renderAnalysis(parsed);
+				} catch (e) {
+					document.getElementById("ai-content").innerHTML =
+						`<p class="error-text">Erreur : ${e.message}</p><div style="text-align:center;margin-top:12px"><button class="btn-amber" style="width:auto;padding:10px 20px" onclick="generateAnalysis()">Réessayer</button></div>`;
+					document.getElementById("ai-subtitle").textContent = "Erreur";
+				}
+			}
+
+			function renderAnalysis(d) {
+				document.getElementById("ai-subtitle").textContent =
+					`Synthèse · ${d.points_de_vue.length} philosophes`;
+				document.getElementById("ai-content").innerHTML = `
+      <div class="ai-section"><p class="ai-section-label">Synthèse du groupe</p><p class="ai-section-text">${d.synthese}</p></div>
+      ${d.points_de_vue.map((p) => `<div class="ai-section"><p class="ai-section-label">${p.philosophe} · ${p.courant}</p><p class="ai-section-text">${p.analyse}</p></div>`).join("")}
+      <div class="ai-section"><p class="ai-section-label">Tension centrale</p><p class="ai-section-text">${d.tension_principale}</p></div>
+      <div class="ai-section"><p class="ai-section-label">Pour aller plus loin</p><p class="ai-section-text" style="color:#C4923A;font-style:italic">${d.pour_aller_plus_loin}</p></div>
+      <div class="philo-row">${d.points_de_vue.map((p) => `<span class="philo-chip">${p.philosophe}</span>`).join("")}</div>`;
+			}
+
+			// ── HISTORIQUE ──
+			function renderHistory() {
+				const list = document.getElementById("history-list");
+				if (!S.history?.length) {
+					list.innerHTML =
+						'<p class="history-empty">Tes prochaines réflexions<br>apparaîtront ici,<br>jour après jour.</p>';
+					return;
+				}
+				list.innerHTML = S.history
+					.map(
+						(h, i) => `
+      <div class="hist-card" onclick="openHistory(${i})">
+        <p class="hist-date">${new Date(h.date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}</p>
+        <p class="hist-q">${h.question} ?</p>
+        <p class="hist-meta">${h.responses.length} réponse${h.responses.length > 1 ? "s" : ""} · ${h.analysis ? "Analysé ✦" : "Non analysé"}</p>
+      </div>`,
+					)
+					.join("");
+			}
+
+			function openHistory(i) {
+				const h = S.history[i];
+				if (!h) return;
+				document.getElementById("result-question").textContent =
+					"« " + h.question + " ? »";
+				document.getElementById("result-sub").textContent = new Date(
+					h.date,
+				).toLocaleDateString("fr-FR", {
+					weekday: "long",
+					day: "numeric",
+					month: "long",
+				});
+				document.getElementById("responses-list").innerHTML = h.responses
+					.map(
+						(r) =>
+							`<div class="resp-card"><p class="resp-name">${r.name}</p><p class="resp-text">${r.text}</p></div>`,
+					)
+					.join("");
+				if (h.analysis) renderAnalysis(h.analysis);
+				else {
+					document.getElementById("ai-content").innerHTML =
+						"<p style=\"font-family:'Crimson Pro',serif;font-size:14px;color:#5C4A2E;font-style:italic;text-align:center;padding:16px\">Aucune analyse pour cette session.</p>";
+					document.getElementById("ai-subtitle").textContent = "—";
+				}
+				go("s-result");
+			}
+
+			// ── TOAST ──
+			function toast(msg) {
+				const t = document.getElementById("toast");
+				t.textContent = msg;
+				t.classList.add("show");
+				setTimeout(() => t.classList.remove("show"), 2500);
+			}
+		</script>
+	</body>
+</html>
