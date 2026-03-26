@@ -46,8 +46,8 @@
 				justify-content: space-around;
 				align-items: center;
 				padding: 12px 0 20px;
-				border-top: 1px solid #2a1e0e;
-				background: #120d06;
+				border-top: 1px solid #1e1509;
+				background: linear-gradient(to top, #0e0a04, #120d06);
 				flex-shrink: 0;
 			}
 			.nav-btn {
@@ -122,15 +122,17 @@
 			}
 			.btn-amber {
 				width: 100%;
-				background: #5c3d12;
+				background: linear-gradient(135deg, #6b4818, #4a2e0a);
 				color: #ede0c8;
-				border: none;
-				border-radius: 8px;
+				border: 1px solid #7a5520;
+				border-radius: 10px;
 				padding: 15px;
 				font-family: "EB Garamond", serif;
 				font-size: 17px;
 				cursor: pointer;
 				margin-top: 12px;
+				letter-spacing: 0.3px;
+				box-shadow: 0 2px 12px rgba(196, 146, 58, 0.1);
 			}
 			.btn-amber:disabled {
 				opacity: 0.4;
@@ -161,30 +163,42 @@
 				flex: 1;
 				display: flex;
 				flex-direction: column;
+				background: radial-gradient(ellipse at 60% 0%, #1c1208 0%, #120d06 70%);
 			}
 			.s1-logo {
 				font-family: "EB Garamond", serif;
 				font-size: 11px;
-				letter-spacing: 5px;
+				letter-spacing: 6px;
 				text-transform: uppercase;
 				color: #c4923a;
-				margin-bottom: 32px;
+				margin-bottom: 36px;
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+			.s1-logo::before {
+				content: "";
+				display: inline-block;
+				width: 20px;
+				height: 1px;
+				background: linear-gradient(to right, transparent, #c4923a);
 			}
 			.s1-title {
 				font-family: "EB Garamond", serif;
-				font-size: 44px;
-				line-height: 1.1;
+				font-size: 46px;
+				line-height: 1.08;
 				color: #ede0c8;
+				letter-spacing: -0.5px;
 			}
 			.s1-title em {
 				font-style: italic;
 				color: #c4923a;
 			}
 			.s1-sub {
-				margin-top: 14px;
-				font-size: 16px;
-				line-height: 1.7;
-				color: #7a6040;
+				margin-top: 16px;
+				font-size: 15px;
+				line-height: 1.8;
+				color: #6b5232;
 				font-style: italic;
 			}
 			.tab-row {
@@ -218,21 +232,23 @@
 			}
 			.s2-groupname {
 				font-family: "EB Garamond", serif;
-				font-size: 22px;
+				font-size: 24px;
 				color: #ede0c8;
+				letter-spacing: -0.3px;
 			}
 			.s2-meta {
-				font-size: 13px;
+				font-size: 12px;
 				color: #5c4a2e;
 				font-style: italic;
 				margin-bottom: 16px;
+				letter-spacing: 0.5px;
 			}
 			.group-code-box {
-				background: #1c1408;
+				background: linear-gradient(135deg, #1c1408, #160f05);
 				border: 1px solid #2a1e0e;
-				border-radius: 8px;
-				padding: 10px 14px;
-				margin-bottom: 16px;
+				border-radius: 10px;
+				padding: 12px 16px;
+				margin-bottom: 18px;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
@@ -252,12 +268,13 @@
 				cursor: pointer;
 			}
 			.question-block {
-				border-left: 2px solid #5c4a2e;
-				padding: 20px 20px 20px 22px;
-				background: #180f05;
-				border-radius: 0 10px 10px 0;
+				border-left: 2px solid #c4923a;
+				padding: 22px 20px 22px 24px;
+				background: linear-gradient(135deg, #1a1006, #140c04);
+				border-radius: 0 12px 12px 0;
 				position: relative;
-				margin: 0 0 20px;
+				margin: 0 0 22px;
+				box-shadow: inset 0 0 20px rgba(196, 146, 58, 0.03);
 			}
 			.q-guillemet {
 				font-family: "EB Garamond", serif;
@@ -270,12 +287,13 @@
 			}
 			.q-text {
 				font-family: "EB Garamond", serif;
-				font-size: 20px;
-				line-height: 1.55;
-				color: #d4bfa0;
+				font-size: 21px;
+				line-height: 1.6;
+				color: #dcc9a8;
 				font-style: italic;
 				position: relative;
 				z-index: 1;
+				letter-spacing: 0.2px;
 			}
 			.q-timer {
 				margin-top: 12px;
@@ -296,8 +314,11 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				padding: 9px 0;
-				border-bottom: 1px solid #1c1408;
+				padding: 10px 0;
+				border-bottom: 1px solid #1a0f05;
+			}
+			.member-row:last-child {
+				border-bottom: none;
 			}
 			.member-name {
 				font-size: 15px;
@@ -413,17 +434,21 @@
 			.s4-header {
 				padding: 48px 24px 16px;
 				flex-shrink: 0;
+				background: linear-gradient(to bottom, #150e05, #120d06);
+				border-bottom: 1px solid #1c1408;
 			}
 			.s4-title {
 				font-family: "EB Garamond", serif;
-				font-size: 26px;
+				font-size: 28px;
 				color: #ede0c8;
-				margin-bottom: 2px;
+				margin-bottom: 3px;
+				letter-spacing: -0.3px;
 			}
 			.s4-sub {
-				font-size: 13px;
+				font-size: 12px;
 				color: #5c4a2e;
 				font-style: italic;
+				letter-spacing: 0.5px;
 			}
 			.s4-scroll {
 				flex: 1;
@@ -431,16 +456,17 @@
 				padding: 0 20px 20px;
 			}
 			.s4-q-recap {
-				background: #180f05;
+				background: linear-gradient(135deg, #1a1006, #140c04);
 				border: 1px solid #2a1e0e;
-				border-radius: 10px;
-				padding: 16px 18px;
-				margin-bottom: 16px;
+				border-left: 2px solid #5c4a2e;
+				border-radius: 0 12px 12px 0;
+				padding: 18px 20px;
+				margin-bottom: 20px;
 				font-family: "EB Garamond", serif;
-				font-size: 16px;
+				font-size: 17px;
 				font-style: italic;
-				color: #7a6040;
-				line-height: 1.5;
+				color: #8a7050;
+				line-height: 1.6;
 			}
 			.responses-label {
 				font-family: "DM Mono", monospace;
@@ -451,8 +477,11 @@
 				margin-bottom: 10px;
 			}
 			.resp-card {
-				border-bottom: 1px solid #1c1408;
-				padding: 12px 0;
+				border-bottom: 1px solid #1a0f05;
+				padding: 14px 0;
+			}
+			.resp-card:last-child {
+				border-bottom: none;
 			}
 			.resp-name {
 				font-family: "DM Mono", monospace;
@@ -469,11 +498,14 @@
 				font-style: italic;
 			}
 			.ai-block {
-				background: #1c1408;
+				background: linear-gradient(145deg, #1e1408, #160f05);
 				border: 1px solid #3d2e18;
-				border-radius: 12px;
-				padding: 22px 20px;
-				margin-top: 20px;
+				border-radius: 14px;
+				padding: 24px 20px;
+				margin-top: 24px;
+				box-shadow:
+					0 4px 24px rgba(0, 0, 0, 0.3),
+					inset 0 1px 0 rgba(196, 146, 58, 0.06);
 			}
 			.ai-header {
 				display: flex;
@@ -482,15 +514,17 @@
 				margin-bottom: 16px;
 			}
 			.ai-icon {
-				width: 28px;
-				height: 28px;
+				width: 32px;
+				height: 32px;
 				border-radius: 50%;
-				background: #3d2e18;
+				background: linear-gradient(135deg, #4a3518, #2a1e0e);
+				border: 1px solid #5c4a2e;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				font-size: 13px;
+				font-size: 14px;
 				flex-shrink: 0;
+				box-shadow: 0 0 12px rgba(196, 146, 58, 0.15);
 			}
 			.ai-title-text {
 				font-family: "EB Garamond", serif;
@@ -537,14 +571,15 @@
 				margin-top: 16px;
 			}
 			.philo-chip {
-				background: #241908;
+				background: linear-gradient(135deg, #241908, #1c1408);
 				border: 1px solid #3d2e18;
-				border-radius: 6px;
-				padding: 5px 11px;
+				border-radius: 20px;
+				padding: 5px 13px;
 				font-family: "EB Garamond", serif;
 				font-size: 13px;
-				color: #8a6a40;
+				color: #9a7a50;
 				font-style: italic;
+				letter-spacing: 0.3px;
 			}
 
 			.s5-scroll {
@@ -682,6 +717,25 @@
 							Un carnet quotidien de pensées partagées entre amis.
 						</p>
 						<div class="divider"></div>
+						<p
+							style="
+								font-family: &quot;EB Garamond&quot;, serif;
+								font-size: 13px;
+								font-style: italic;
+								color: #3d2e18;
+								line-height: 1.6;
+								margin-bottom: 16px;
+							">
+							« La vie non examinée ne vaut pas la peine d'être vécue. »<br /><span
+								style="
+									font-family: &quot;DM Mono&quot;, monospace;
+									font-size: 9px;
+									letter-spacing: 1.5px;
+									color: #2a1e0e;
+								"
+								>— Socrate</span
+							>
+						</p>
 						<input
 							class="field"
 							id="pseudo"
@@ -723,17 +777,36 @@
 							</button>
 						</div>
 					</div>
-					<p
+					<div
 						style="
-							font-family: &quot;DM Mono&quot;, monospace;
-							font-size: 9px;
-							color: #2a1e0e;
-							text-align: center;
-							letter-spacing: 2px;
-							text-transform: uppercase;
+							display: flex;
+							align-items: center;
+							gap: 8px;
+							justify-content: center;
 						">
-						La question t'attend
-					</p>
+						<div
+							style="
+								flex: 1;
+								height: 1px;
+								background: linear-gradient(to right, transparent, #2a1e0e);
+							"></div>
+						<p
+							style="
+								font-family: &quot;DM Mono&quot;, monospace;
+								font-size: 9px;
+								color: #2a1e0e;
+								letter-spacing: 2px;
+								text-transform: uppercase;
+							">
+							La question t'attend
+						</p>
+						<div
+							style="
+								flex: 1;
+								height: 1px;
+								background: linear-gradient(to left, transparent, #2a1e0e);
+							"></div>
+					</div>
 				</div>
 			</div>
 
@@ -999,23 +1072,20 @@
 
 		<script>
 			// ── PROXY URL ── (clé sécurisée dans Cloudflare)
-			const PROXY_URL = "https://philosophia-proxy.mohamedamine-khouaja.workers.dev";
+			const PROXY_URL =
+				"https://philosophia-proxy.mohamedamine-khouaja.workers.dev";
 
-			// ── HELPER : appel via proxy Cloudflare ──
+			// ── HELPER : appel via proxy Cloudflare (Groq) ──
 			async function callGemini(prompt, maxTokens = 1000) {
 				const res = await fetch(PROXY_URL, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						contents: [{ parts: [{ text: prompt }] }],
-						generationConfig: { maxOutputTokens: maxTokens },
-					}),
+					body: JSON.stringify({ prompt, max_tokens: maxTokens }),
 				});
 				const data = await res.json();
 				if (data.error) throw new Error(data.error.message);
-				return data.candidates[0].content.parts[0].text.trim();
+				return data.choices[0].message.content.trim();
 			}
-
 
 			// ── STORAGE ──
 			const LS = {
@@ -1311,7 +1381,9 @@
 					"Analyse en cours…";
 				try {
 					const prompt = `Tu es un professeur de philosophie bienveillant pour des adolescents (14-20 ans).\n\nQuestion : "${S.today.question} ?"\nRéponses :\n${rt}\n\nRéponds UNIQUEMENT en JSON valide, sans markdown ni backticks :\n{"synthese":"2-3 phrases sur les tendances du groupe","points_de_vue":[{"philosophe":"Nom","courant":"courant","analyse":"2 phrases simples"},{"philosophe":"Nom","courant":"courant","analyse":"2 phrases simples"},{"philosophe":"Nom","courant":"courant","analyse":"2 phrases simples"}],"tension_principale":"1 phrase sur la tension centrale","pour_aller_plus_loin":"1 question provocatrice"}`;
-					const parsed = JSON.parse((await callGemini(prompt, 1000)).replace(/```json|```/g, "").trim());
+					const parsed = JSON.parse(
+						(await callGemini(prompt, 1000)).replace(/```json|```/g, "").trim(),
+					);
 					S.today.analysis = parsed;
 					save();
 					renderAnalysis(parsed);
