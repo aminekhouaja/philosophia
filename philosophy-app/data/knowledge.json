@@ -1,0 +1,117 @@
+{
+  "concepts": {
+    "liberte": {
+      "title": "Liberté",
+      "simple": "Le pouvoir de choisir sa propre voie",
+      "realLife": "C'est quand tu dis 'non' à quelque chose qui ne te ressemble pas, même si c'est difficile.",
+      "perspective": "Les stoïciens disaient que la vraie liberté est intérieure — personne ne peut te voler tes choix intimes.",
+      "question": "Qu'est-ce qui te rend vraiment libre ? Est-ce tes choix, ou l'absence de contraintes ?"
+    },
+    "identite": {
+      "title": "Identité",
+      "simple": "Ce qui te rend 'toi', au-delà des apparences",
+      "realLife": "C'est ce qui reste quand tout change — tes valeurs, tes blessures, tes rêves silencieux.",
+      "perspective": "L'existentialiste Sartre disait qu'on n'est pas 'né' soi-même, on se devient par chaque choix.",
+      "question": "Quelle part de toi est vraiment 'toi', et quelle part vient des attentes des autres ?"
+    },
+    "bonheur": {
+      "title": "Bonheur",
+      "simple": "Pas un état permanent, mais des moments de plénitude",
+      "realLife": "Ce n'est pas le sourire sur Instagram. C'est le calme dans ta poitrine, parfois sans raison.",
+      "perspective": "Epicure disait que le bonheur c'est l'absence de douleur — pas l'excitation constante.",
+      "question": "Cherches-tu le bonheur, ou essaies-tu simplement d'éviter le malheur ?"
+    },
+    "verite": {
+      "title": "Vérité",
+      "simple": "Ce qui est, au-delà de ce qu'on veut voir",
+      "realLife": "C'est difficile à porter. Parfois on préfère nos illusions, et c'est humain.",
+      "perspective": "Nietzsche pensait qu'il n'y a pas UNE vérité, mais des perspectives. Chacun a sa propre.",
+      "question": "Es-tu prêt à voir une vérité qui pourrait changer ta vie ?"
+    },
+    "conscience": {
+      "title": "Conscience",
+      "simple": "Ce qui te permet de te voir penser",
+      "realLife": "C'est entendre ta propre voix intérieure. La reconnaître. Parfois la contredire.",
+      "perspective": "Descartes disait 'Je pense, donc je suis'. La conscience est la preuve de ton existence.",
+      "question": "Combien de fois aujourd'hui as-tu vraiment écouté ce que tu ressens ?"
+    }
+  },
+  "deepQuestions": [
+    {
+      "question": "Qui suis-je ?",
+      "approach": "Cette question n'a pas de réponse fixe. Tu es en constante évolution.",
+      "angles": [
+        "Tu es ce que tu fais répétitivement",
+        "Tu es ce que tu refuses de devenir",
+        "Tu es tes relations aux autres",
+        "Tu es ce que tu gardes secret"
+      ],
+      "reflection": "L'identité n'est pas une étiquette. C'est un processus."
+    },
+    {
+      "question": "Sommes-nous vraiment libres ?",
+      "approach": "La liberté existe, mais elle est nuancée.",
+      "angles": [
+        "Tu es influencé par ton éducation, ta culture, ton époque",
+        "Pourtant, tu peux toujours choisir comment réagir",
+        "La liberté commence par la conscience de tes contraintes"
+      ],
+      "reflection": "Peut-être que la vraie liberté, c'est choisir sagement dans un monde d'options infinies."
+    },
+    {
+      "question": "Qu'est-ce que le bonheur ?",
+      "approach": "Le bonheur n'est pas une destination, c'est une manière de voyager.",
+      "angles": [
+        "Ce n'est pas l'absence de problèmes, mais la présence de sens",
+        "C'est souvent simple : connection, création, contribution",
+        "Il change avec toi — ce qui te rendait heureux à 10 ans n'est plus le même"
+      ],
+      "reflection": "Le bonheur n'est pas à chercher. Il émerge quand tu vis en accord avec toi-même."
+    }
+  ],
+  "reflectionPrompts": [
+    {
+      "category": "Liberté",
+      "prompts": [
+        "Qu'est-ce qui te rend vraiment libre ?",
+        "Est-ce que tes choix viennent de toi ou des autres ?",
+        "Quand as-tu dit 'non' pour la dernière fois ?",
+        "Quelle convention sociale pourrais-tu abandonner ?"
+      ]
+    },
+    {
+      "category": "Identité",
+      "prompts": [
+        "Décris-toi sans parler de ton travail ou école",
+        "Quelle part de toi reste secrète ? Pourquoi ?",
+        "Si personne ne regardait, qui serais-tu ?",
+        "Qu'est-ce que tu crains que les autres découvrent ?"
+      ]
+    },
+    {
+      "category": "Relations",
+      "prompts": [
+        "Tes amis te reflètent-ils ou te définissent-ils ?",
+        "Quand te sens-tu vraiment compris ?",
+        "Quelle relation a changé qui tu es ?",
+        "As-tu peur d'être seul ou d'être mal accompagné ?"
+      ]
+    },
+    {
+      "category": "Sens",
+      "prompts": [
+        "Qu'est-ce qui donne du sens à tes journées ?",
+        "Si tu n'avais pas peur, que ferais-tu ?",
+        "Qu'est-ce que tu veux qu'on se souvienne de toi ?",
+        "Quelle question te hante depuis longtemps ?"
+      ]
+    }
+  ],
+  "philosophers": {
+    "stoiciens": "Maîtrise intérieure, accepter ce qu'on ne contrôle pas",
+    "sartre": "L'existence précède l'essence — tu crées qui tu es",
+    "epicure": "Le bonheur simple, loin des désirs insatiables",
+    "nietzsche": "Deviens qui tu es — au-delà du bien et du mal",
+    "camus": "L'absurde de la vie n'empêche pas de vivre intensément"
+  }
+}

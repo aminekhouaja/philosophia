@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence — Votre compagnon philosophique</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="logo">Essence</h1>
+            <p class="tagline">Un espace pour penser, explorer, devenir</p>
+        </header>
+
+        <nav class="nav-modes">
+            <button class="mode-btn active" data-mode="explore">
+                <span class="mode-icon">🔍</span>
+                <span class="mode-text">Explorer</span>
+            </button>
+            <button class="mode-btn" data-mode="question">
+                <span class="mode-icon">💭</span>
+                <span class="mode-text">Questions</span>
+            </button>
+            <button class="mode-btn" data-mode="reflect">
+                <span class="mode-icon">🌙</span>
+                <span class="mode-text">Réfléchir</span>
+            </button>
+        </nav>
+
+        <main class="main-content">
+            <!-- Search Section -->
+            <section class="search-section" id="searchSection">
+                <div class="search-container">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Explore un concept... liberté, identité, bonheur"
+                        autocomplete="off"
+                    >
+                    <button class="search-btn" id="searchBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="quick-tags" id="quickTags">
+                    <span class="tag">liberté</span>
+                    <span class="tag">identité</span>
+                    <span class="tag">bonheur</span>
+                    <span class="tag">qui suis-je ?</span>
+                    <span class="tag">vérité</span>
+                </div>
+            </section>
+
+            <!-- Chat/Response Section -->
+            <section class="response-section" id="responseSection">
+                <div class="loading-indicator hidden" id="loading">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <p class="loading-text">Réflexion en cours...</p>
+                </div>
+
+                <div class="response-container" id="responseContainer">
+                    <!-- Welcome Card -->
+                    <div class="welcome-card" id="welcomeCard">
+                        <h2>Bienvenue dans votre espace de réflexion</h2>
+                        <p>Ici, pas de bonnes réponses. Juste des questions qui comptent.</p>
+                        <div class="welcome-prompts">
+                            <button class="welcome-btn" data-query="liberté">Explorer la liberté</button>
+                            <button class="welcome-btn" data-query="Qui suis-je ?">Qui suis-je ?</button>
+                            <button class="welcome-btn" data-query="reflect">Mode réflexion</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reflection Mode Panel -->
+            <section class="reflection-panel hidden" id="reflectionPanel">
+                <div class="reflection-header">
+                    <h3>Mode Réflexion Guidée</h3>
+                    <p>Des questions pour aller plus profond</p>
+                </div>
+                <div class="reflection-categories" id="reflectionCategories">
+                    <!-- Categories loaded dynamically -->
+                </div>
+                <div class="reflection-question" id="reflectionQuestion">
+                    <p class="current-prompt">Clique sur une catégorie pour commencer</p>
+                    <button class="next-prompt-btn hidden" id="nextPrompt">Une autre question</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Mobile Navigation Bar -->
+        <nav class="nav-bar" id="navBar" style="display: none;">
+            <button class="nav-btn" onclick="switchScreen('welcome')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+                </svg>
+                Accueil
+            </button>
+            <button class="nav-btn active" onclick="switchScreen('group')" id="navGroup">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 8v4l3 3"/>
+                </svg>
+                Groupe
+            </button>
+            <button class="nav-btn" onclick="switchScreen('results')" id="navResults">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M4 6h16M4 12h16M4 18h10"/>
+                </svg>
+                Synthèse
+            </button>
+            <button class="nav-btn" onclick="switchScreen('history')" id="navHistory">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 8v4l2 2m6-2a8 8 0 11-16 0 8 8 0 0116 0z"/>
+                </svg>
+                Historique
+            </button>
+        </nav>
+
+        <!-- Welcome/Join Screen -->
+        <section class="welcome-screen" id="welcomeScreen">
+            <div>
+                <p class="welcome-logo">✦ Essence</p>
+                <h1 class="welcome-title">
+                    Réfléchis.<br/><em>Partage.</em><br/>Évolue.
+                </h1>
+                <p class="welcome-sub">
+                    Un carnet quotidien de pensées partagées entre amis.
+                </p>
+                <div class="divider"></div>
+                <input
+                    class="field"
+                    id="pseudo"
+                    type="text"
+                    placeholder="Ton prénom ou pseudo"
+                />
+                <div class="tab-row">
+                    <button class="tab-btn active" id="tabJoin" onclick="switchTab('join')">
+                        Rejoindre
+                    </button>
+                    <button class="tab-btn" id="tabCreate" onclick="switchTab('create')">
+                        Créer
+                    </button>
+                </div>
+                <div id="joinForm">
+                    <input
+                        class="field"
+                        id="joinCode"
+                        type="text"
+                        placeholder="Code du groupe · ex: AGORA-42"
+                        style="text-transform: uppercase; letter-spacing: 2px"
+                    />
+                    <button class="btn-primary" onclick="handleJoinGroup()">
+                        Rejoindre →
+                    </button>
+                </div>
+                <div id="createForm" style="display: none;">
+                    <input
+                        class="field"
+                        id="groupNameInput"
+                        type="text"
+                        placeholder="Nom du groupe"
+                    />
+                    <button class="btn-primary" onclick="handleCreateGroup()">
+                        Créer le groupe →
+                    </button>
+                </div>
+            </div>
+            <p class="welcome-footer">La question t'attend</p>
+        </section>
+
+        <!-- Group Screen -->
+        <section class="group-screen" id="groupScreen">
+            <p class="tag" id="todayDate"></p>
+            <div class="group-header">
+                <h2 class="group-name" id="groupDisplayName">—</h2>
+                <span class="member-count">✦ <span id="memberCount">0</span></span>
+            </div>
+            <p class="group-meta">Question du jour</p>
+            <div class="group-code-box" onclick="copyGroupCode()">
+                <span class="group-code-label">Code du groupe</span>
+                <span class="group-code-val" id="groupCodeDisplay">— —</span>
+            </div>
+            <div class="question-block">
+                <span class="q-guillemet">"</span>
+                <div id="qContent">
+                    <div class="ai-loading" style="padding: 12px 0;">
+                        <div class="ai-loading-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <span style="font-family: var(--font-sans); font-size: 10px; color: var(--text-muted); letter-spacing: 1px;">Génération…</span>
+                    </div>
+                </div>
+            </div>
+            <p class="members-title">Membres</p>
+            <div id="membersList"></div>
+            <button class="btn-primary" id="btnWrite" onclick="goToNote()" disabled>
+                Écrire ma réflexion →
+            </button>
+        </section>
+
+        <!-- Note Screen -->
+        <section class="note-screen" id="noteScreen">
+            <div class="note-header">
+                <button class="back-btn" onclick="goToGroup()">← Retour</button>
+                <p class="note-question" id="noteQuestionDisplay"></p>
+            </div>
+            <div class="note-body">
+                <div class="lines-bg"></div>
+                <textarea
+                    class="note-ta"
+                    id="myNote"
+                    placeholder="Ta pensée commence ici…"
+                    oninput="updateWordCount()"
+                ></textarea>
+            </div>
+            <div class="note-footer">
+                <span class="word-count" id="wordCount">0 mots</span>
+                <button class="btn-submit" onclick="handleSubmitNote()">Soumettre ✦</button>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section class="results-screen" id="resultsScreen">
+            <div class="results-header">
+                <p class="results-tag">Synthèse du jour</p>
+                <h2 class="results-title">Réflexions du groupe</h2>
+                <p class="results-sub" id="resultSub">—</p>
+            </div>
+            <div class="results-scroll">
+                <div class="results-q-recap" id="resultQuestion"></div>
+                <p class="responses-label">Ce que le groupe a écrit</p>
+                <div id="responsesList"></div>
+                <div class="ai-block">
+                    <div class="ai-header">
+                        <div class="ai-icon">✦</div>
+                        <div>
+                            <p class="ai-title-text">Analyse Philosophia</p>
+                            <p class="ai-subtitle" id="aiSubtitle">En attente</p>
+                        </div>
+                    </div>
+                    <div id="aiContent">
+                        <div style="text-align: center; padding: 16px 0;">
+                            <button class="btn-primary" style="width: auto; padding: 12px 24px; font-size: 15px;" onclick="handleGenerateAnalysis()">
+                                ✦ Générer l'analyse IA
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Screen -->
+        <section class="history-screen" id="historyScreen">
+            <div class="history-scroll">
+                <p class="tag">Carnet de bord</p>
+                <h2 class="results-title" style="margin-bottom: 4px;">Historique</h2>
+                <p class="results-sub" style="margin-bottom: 20px;">Tes réflexions passées</p>
+                <div id="historyList"></div>
+            </div>
+        </section>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/group.js"></script>
+    <script>
+        // Initialize Group Module on load
+        document.addEventListener('DOMContentLoaded', () => {
+            GroupModule.init();
+            initializePhilosophiaUI();
+        });
+
+        // UI State
+        let currentTab = 'join';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.getElementById('tabJoin').classList.toggle('active', tab === 'join');
+            document.getElementById('tabCreate').classList.toggle('active', tab === 'create');
+            document.getElementById('joinForm').style.display = tab === 'join' ? 'block' : 'none';
+            document.getElementById('createForm').style.display = tab === 'create' ? 'block' : 'none';
+        }
+
+        function switchScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.welcome-screen, .group-screen, .note-screen, .results-screen, .history-screen').forEach(s => {
+                s.classList.remove('active');
+            });
+            document.getElementById(screenId + 'Screen').classList.add('active');
+
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            if (screenId === 'group') document.getElementById('navGroup')?.classList.add('active');
+            if (screenId === 'results') document.getElementById('navResults')?.classList.add('active');
+            if (screenId === 'history') document.getElementById('navHistory')?.classList.add('active');
+
+            // Refresh content
+            if (screenId === 'results') renderResults();
+            if (screenId === 'history') renderHistory();
+        }
+
+        function goToNote() {
+            const question = GroupModule.getQuestion();
+            document.getElementById('noteQuestionDisplay').textContent = '« ' + question + ' ? »';
+            document.getElementById('myNote').value = GroupModule.getMyResponse()?.text || '';
+            updateWordCount();
+            switchScreen('note');
+        }
+
+        function goToGroup() {
+            switchScreen('group');
+        }
+
+        function handleCreateGroup() {
+            const name = document.getElementById('groupNameInput').value.trim() || 'Mon groupe';
+            const pseudo = document.getElementById('pseudo').value.trim() || 'Anonyme';
+            try {
+                GroupModule.createGroup(name, pseudo);
+                afterGroupJoined();
+            } catch (e) {
+                showToast(e.message);
+            }
+        }
+
+        function handleJoinGroup() {
+            const code = document.getElementById('joinCode').value.trim().toUpperCase();
+            const pseudo = document.getElementById('pseudo').value.trim() || 'Anonyme';
+            try {
+                GroupModule.joinGroup(code, pseudo);
+                afterGroupJoined();
+            } catch (e) {
+                showToast(e.message);
+            }
+        }
+
+        function afterGroupJoined() {
+            const group = GroupModule.getGroup();
+            if (!group) return;
+
+            document.getElementById('groupDisplayName').textContent = group.name;
+            document.getElementById('groupCodeDisplay').textContent = group.code;
+            document.getElementById('memberCount').textContent = group.members.length;
+
+            const today = GroupModule.getToday();
+            if (!today?.question) {
+                startNewDayUI();
+            } else {
+                renderQuestion();
+                renderMembers();
+            }
+
+            // Show nav bar
+            document.getElementById('navBar').style.display = 'flex';
+            switchScreen('group');
+        }
+
+        async function startNewDayUI() {
+            document.getElementById('qContent').innerHTML = `
+                <div class="ai-loading" style="padding:12px 0;">
+                    <div class="ai-loading-dots">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <span style="font-family: var(--font-sans); font-size: 10px; color: var(--text-muted); letter-spacing: 1px;">Génération de la question…</span>
+                </div>`;
+            document.getElementById('btnWrite').disabled = true;
+
+            try {
+                await GroupModule.startNewDay();
+                renderQuestion();
+                renderMembers();
+            } catch (e) {
+                document.getElementById('qContent').innerHTML = `
+                    <p style="font-family: var(--font-serif); font-size: 14px; font-style: italic; color: var(--text-secondary); padding: 8px 0;">
+                        Erreur : ${e.message}
+                    </p>
+                    <button class="btn-ghost" style="margin-top: 8px;" onclick="startNewDayUI()">Réessayer</button>`;
+            }
+        }
+
+        function renderQuestion() {
+            const question = GroupModule.getQuestion();
+            if (!question) return;
+
+            document.getElementById('qContent').innerHTML = `
+                <p class="q-text">${question}&nbsp;?</p>
+                <p class="q-timer">⏳ ${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</p>`;
+            document.getElementById('btnWrite').disabled = false;
+
+            // Update today date
+            document.getElementById('todayDate').textContent = GroupModule.getTodayDateFormatted();
+        }
+
+        function renderMembers() {
+            const members = GroupModule.getMembers();
+            if (!members) return;
+
+            document.getElementById('membersList').innerHTML = members.map(m => {
+                const done = GroupModule.isMemberDone(m.name);
+                return `<div class="member-row">
+                    <span class="member-name">${m.name}${m.isMe ? ' (moi)' : ''}</span>
+                    <span class="${done ? 'badge-done' : 'badge-wait'}">${done ? 'Répondu' : 'En attente'}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('myNote').value.trim();
+            const count = text ? text.split(/\s+/).filter(w => w).length : 0;
+            document.getElementById('wordCount').textContent = count + (count <= 1 ? ' mot' : ' mots');
+        }
+
+        function handleSubmitNote() {
+            const note = document.getElementById('myNote').value.trim();
+            if (!note) {
+                showToast('Écris quelque chose d\'abord');
+                return;
+            }
+            try {
+                GroupModule.submitNote(note);
+                renderMembers();
+                showToast('Réflexion enregistrée ✦');
+                switchScreen('results');
+            } catch (e) {
+                showToast(e.message);
+            }
+        }
+
+        function renderResults() {
+            const today = GroupModule.getToday();
+            if (!today) return;
+
+            document.getElementById('resultQuestion').textContent = '« ' + (today.question || '…') + ' ? »';
+            const responses = GroupModule.getResponses();
+            document.getElementById('resultSub').textContent =
+                responses.length + ' réponse' + (responses.length > 1 ? 's' : '') +
+                ' · ' + new Date(today.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+
+            if (responses.length === 0) {
+                document.getElementById('responsesList').innerHTML = `
+                    <p style="font-family: var(--font-serif); font-size: 15px; color: var(--text-muted); font-style: italic; padding: 12px 0;">
+                        Aucune réponse pour l'instant.
+                    </p>`;
+            } else {
+                document.getElementById('responsesList').innerHTML = responses.map(r =>
+                    `<div class="resp-card">
+                        <p class="resp-name">${r.name}</p>
+                        <p class="resp-text">${r.text}</p>
+                    </div>`
+                ).join('');
+            }
+
+            if (GroupModule.hasAnalysis()) {
+                renderAnalysis(GroupModule.getAnalysis());
+            } else {
+                document.getElementById('aiContent').innerHTML = `
+                    <div style="text-align: center; padding: 16px 0;">
+                        <button class="btn-primary" style="width: auto; padding: 12px 24px; font-size: 15px;" onclick="handleGenerateAnalysis()">
+                            ✦ Générer l'analyse IA
+                        </button>
+                    </div>`;
+                document.getElementById('aiSubtitle').textContent = 'En attente';
+            }
+        }
+
+        async function handleGenerateAnalysis() {
+            if (!GroupModule.getResponses().length) {
+                showToast('Aucune réponse à analyser');
+                return;
+            }
+
+            document.getElementById('aiContent').innerHTML = `
+                <div class="ai-loading">
+                    <div class="ai-loading-dots">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <p style="font-family: var(--font-sans); font-size: 10px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;">
+                        Claude réfléchit…
+                    </p>
+                </div>`;
+            document.getElementById('aiSubtitle').textContent = 'Analyse en cours…';
+
+            try {
+                const analysis = await GroupModule.generateAnalysis();
+                renderAnalysis(analysis);
+            } catch (e) {
+                document.getElementById('aiContent').innerHTML = `
+                    <p style="font-family: var(--font-serif); font-size: 14px; color: var(--text-secondary); font-style: italic; text-align: center;">
+                        Erreur : ${e.message}
+                    </p>
+                    <div style="text-align: center; margin-top: 12px;">
+                        <button class="btn-ghost" style="width: auto; padding: 10px 20px;" onclick="handleGenerateAnalysis()">Réessayer</button>
+                    </div>`;
+                document.getElementById('aiSubtitle').textContent = 'Erreur';
+            }
+        }
+
+        function renderAnalysis(data) {
+            document.getElementById('aiSubtitle').textContent =
+                `Synthèse · ${data.points_de_vue.length} philosophes`;
+
+            document.getElementById('aiContent').innerHTML = `
+                <div class="ai-section">
+                    <p class="ai-section-label">Synthèse du groupe</p>
+                    <p class="ai-section-text">${data.synthese}</p>
+                </div>
+                ${data.points_de_vue.map(p => `
+                    <div class="ai-section">
+                        <p class="ai-section-label">${p.philosophe} · ${p.courant}</p>
+                        <p class="ai-section-text">${p.analyse}</p>
+                    </div>
+                `).join('')}
+                <div class="ai-section">
+                    <p class="ai-section-label">Tension centrale</p>
+                    <p class="ai-section-text">${data.tension_principale}</p>
+                </div>
+                <div class="ai-section">
+                    <p class="ai-section-label">Pour aller plus loin</p>
+                    <p class="ai-section-text" style="color: var(--accent-gold); font-style: italic;">
+                        ${data.pour_aller_plus_loin}
+                    </p>
+                </div>
+                <div class="philo-row">
+                    ${data.points_de_vue.map(p => `<span class="philo-chip">${p.philosophe}</span>`).join('')}
+                </div>`;
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const count = GroupModule.getHistoryCount();
+
+            if (count === 0) {
+                list.innerHTML = '<p class="history-empty">Tes prochaines réflexions<br>apparaîtront ici,<br>jour après jour.</p>';
+                return;
+            }
+
+            const history = GroupModule.getState().history;
+            list.innerHTML = history.map((h, i) => `
+                <div class="hist-card" onclick="openHistorySession(${i})">
+                    <p class="hist-date">${new Date(h.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+                    <p class="hist-q">${h.question} ?</p>
+                    <p class="hist-meta">${h.responses.length} réponse${h.responses.length > 1 ? 's' : ''} · ${h.analysis ? 'Analysé ✦' : 'Non analysé'}</p>
+                </div>
+            `).join('');
+        }
+
+        function openHistorySession(index) {
+            GroupModule.openHistorySession(index);
+            renderResults();
+            switchScreen('results');
+        }
+
+        function copyGroupCode() {
+            if (GroupModule.copyCode()) {
+                const code = GroupModule.getGroup().code;
+                showToast('Code copié : ' + code);
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function initializePhilosophiaUI() {
+            const group = GroupModule.getGroup();
+            if (group) {
+                document.getElementById('groupDisplayName').textContent = group.name;
+                document.getElementById('groupCodeDisplay').textContent = group.code;
+                document.getElementById('memberCount').textContent = group.members.length;
+
+                const today = GroupModule.getToday();
+                if (today?.question) {
+                    renderQuestion();
+                    renderMembers();
+                }
+
+                document.getElementById('navBar').style.display = 'flex';
+                switchScreen('group');
+            } else {
+                switchScreen('welcome');
+            }
+        }
+    </script>
+</body>
+</html>

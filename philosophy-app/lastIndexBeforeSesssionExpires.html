@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence — Journal philosophique partagé</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Texture de fond -->
+    <div class="paper-texture"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation principale -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="brand-mark">✦</span>
+            <span class="brand-name">Essence</span>
+        </div>
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-view="entry" onclick="navigate('entry')">
+                <span class="tab-label">Entrer</span>
+            </button>
+            <button class="nav-tab" data-view="journal" onclick="navigate('journal')" id="navJournal" style="display:none;">
+                <span class="tab-label">Journal</span>
+            </button>
+            <button class="nav-tab" data-view="archives" onclick="navigate('archives')" id="navArchives" style="display:none;">
+                <span class="tab-label">Archives</span>
+            </button>
+        </div>
+        <div class="nav-user" id="navUser" style="display:none;">
+            <span class="user-name" id="userNameDisplay"></span>
+        </div>
+    </nav>
+
+    <main class="main-stage">
+        <!-- VIEW: Entry / Welcome -->
+        <section class="view view-entry active" id="viewEntry">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <p class="hero-eyebrow">Un carnet quotidien de pensées partagées</p>
+                    <h1 class="hero-title">
+                        Réfléchis.<br>
+                        <em>Partage.</em><br>
+                        Évolue.
+                    </h1>
+                    <p class="hero-subtitle">
+                        Chaque jour, une question philosophique. Écris ta réflexion,
+                        découvre celles des autres, reçois une analyse inspirée des
+                        grands philosophes.
+                    </p>
+                </div>
+
+                <div class="entry-card">
+                    <div class="entry-header">
+                        <span class="entry-title">Commencer l'expérience</span>
+                    </div>
+
+                    <div class="entry-body">
+                        <div class="field-group">
+                            <label class="field-label" for="pseudo">Ton prénom</label>
+                            <input
+                                class="text-field"
+                                id="pseudo"
+                                type="text"
+                                placeholder="Ex: Thomas"
+                                autocomplete="off"
+                            />
+                        </div>
+
+                        <div class="tab-switch">
+                            <button class="switch-btn active" data-tab="join" onclick="switchTab('join')">
+                                Rejoindre un groupe
+                            </button>
+                            <button class="switch-btn" data-tab="create" onclick="switchTab('create')">
+                                Créer un groupe
+                            </button>
+                        </div>
+
+                        <div id="joinForm" class="form-panel">
+                            <div class="field-group">
+                                <label class="field-label" for="joinCode">Code d'invitation</label>
+                                <input
+                                    class="text-field code-field"
+                                    id="joinCode"
+                                    type="text"
+                                    placeholder="AGORA-42"
+                                    style="text-transform: uppercase; letter-spacing: 3px; text-align: center;"
+                                />
+                            </div>
+                            <button class="btn-primary" onclick="handleJoinGroup()">
+                                Rejoindre →
+                            </button>
+                        </div>
+
+                        <div id="createForm" class="form-panel" style="display:none;">
+                            <div class="field-group">
+                                <label class="field-label" for="groupNameInput">Nom du groupe</label>
+                                <input
+                                    class="text-field"
+                                    id="groupNameInput"
+                                    type="text"
+                                    placeholder="Ex: Cercle des Lumières"
+                                />
+                            </div>
+                            <button class="btn-primary" onclick="handleCreateGroup()">
+                                Créer le groupe →
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="entry-footer">
+                        <p class="entry-note">Déjà membre ? Utilise le code de ton groupe pour rejoindre.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Journal (Group Screen) -->
+        <section class="view view-journal" id="viewJournal">
+            <div class="journal-container">
+                <!-- Header du jour -->
+                <header class="journal-header">
+                    <div class="journal-meta">
+                        <span class="journal-date" id="todayDate"></span>
+                        <span class="journal-separator">·</span>
+                        <span class="journal-group" id="groupDisplayName">—</span>
+                    </div>
+                    <div class="journal-code" onclick="copyGroupCode()">
+                        <span class="code-label">Code</span>
+                        <span class="code-val" id="groupCodeDisplay">— —</span>
+                        <span class="code-copy">Copier</span>
+                    </div>
+                </header>
+
+                <!-- Question du jour -->
+                <article class="daily-question">
+                    <div class="question-marker">
+                        <span class="marker-line"></span>
+                        <span class="marker-text">Question du jour</span>
+                        <span class="marker-line"></span>
+                    </div>
+                    <div class="question-content" id="qContent">
+                        <div class="loading-state">
+                            <div class="loading-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <p class="loading-label">Génération de la question…</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Membres du groupe -->
+                <section class="members-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Membres</h2>
+                        <span class="section-count" id="memberCount">0</span>
+                    </div>
+                    <div class="members-grid" id="membersList"></div>
+                </section>
+
+                <!-- Action: écrire -->
+                <div class="journal-action">
+                    <button class="btn-write" id="btnWrite" onclick="goToNote()" disabled>
+                        <span class="write-icon">✎</span>
+                        <span class="write-text">Écrire ma réflexion</span>
+                        <span class="write-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Note Editor -->
+        <section class="view view-note" id="viewNote">
+            <div class="note-container">
+                <header class="note-header">
+                    <button class="back-button" onclick="goToJournal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        <span>Retour</span>
+                    </button>
+                    <p class="note-question" id="noteQuestionDisplay"></p>
+                </header>
+
+                <div class="note-editor">
+                    <div class="note-lines"></div>
+                    <textarea
+                        class="note-textarea"
+                        id="myNote"
+                        placeholder="Ta pensée commence ici…"
+                        oninput="updateWordCount()"
+                        spellcheck="false"
+                    ></textarea>
+                </div>
+
+                <footer class="note-footer">
+                    <div class="word-count" id="wordCount">0 mot</div>
+                    <button class="btn-submit" onclick="handleSubmitNote()">
+                        <span>Soumettre</span>
+                        <span class="submit-mark">✦</span>
+                    </button>
+                </footer>
+            </div>
+        </section>
+
+        <!-- VIEW: Results / Synthèse -->
+        <section class="view view-results" id="viewResults">
+            <div class="results-container">
+                <header class="results-header">
+                    <span class="results-tag">Synthèse du jour</span>
+                    <h1 class="results-title">Réflexions du groupe</h1>
+                    <p class="results-meta" id="resultSub">—</p>
+                </header>
+
+                <div class="results-content">
+                    <!-- Question rappel -->
+                    <div class="results-question" id="resultQuestion"></div>
+
+                    <!-- Réponses des membres -->
+                    <div class="responses-section">
+                        <span class="responses-label">Ce que le groupe a écrit</span>
+                        <div class="responses-list" id="responsesList"></div>
+                    </div>
+
+                    <!-- Analyse IA -->
+                    <article class="analysis-block" id="analysisBlock">
+                        <header class="analysis-header">
+                            <div class="analysis-icon">✦</div>
+                            <div class="analysis-title-group">
+                                <h3 class="analysis-title">Analyse Philosophia</h3>
+                                <p class="analysis-subtitle" id="aiSubtitle">En attente</p>
+                            </div>
+                        </header>
+                        <div class="analysis-content" id="aiContent">
+                            <div class="analysis-prompt">
+                                <p class="prompt-text">L'IA n'a pas encore analysé les réflexions du groupe.</p>
+                                <button class="btn-analysis" onclick="handleGenerateAnalysis()">
+                                    ✦ Générer l'analyse
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Archives -->
+        <section class="view view-archives" id="viewArchives">
+            <div class="archives-container">
+                <header class="archives-header">
+                    <span class="results-tag">Carnet de bord</span>
+                    <h1 class="results-title">Historique</h1>
+                    <p class="results-meta">Tes réflexions passées, jour après jour</p>
+                </header>
+
+                <div class="archives-list" id="historyList"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="js/app.js"></script>
+    <script src="js/group.js"></script>
+    <script>
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            GroupModule.init();
+            initializeUI();
+        });
+
+        // Navigation
+        function navigate(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+
+            // Show target view
+            document.getElementById('view' + viewName.charAt(0).toUpperCase() + viewName.slice(1))?.classList.add('active');
+            document.querySelector(`[data-view="${viewName}"]`)?.classList.add('active');
+
+            // Refresh content
+            if (viewName === 'journal') renderJournal();
+            if (viewName === 'results') renderResults();
+            if (viewName === 'archives') renderArchives();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.switch-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tab);
+            });
+            document.getElementById('joinForm').style.display = tab === 'join' ? 'block' : 'none';
+            document.getElementById('createForm').style.display = tab === 'create' ? 'block' : 'none';
+        }
+
+        function goToJournal() {
+            navigate('journal');
+        }
+
+        function goToNote() {
+            const question = GroupModule.getQuestion();
+            document.getElementById('noteQuestionDisplay').textContent = '« ' + question + ' ? »';
+            document.getElementById('myNote').value = GroupModule.getMyResponse()?.text || '';
+            updateWordCount();
+            navigate('note');
+        }
+
+        function goToResults() {
+            navigate('results');
+        }
+
+        // Group actions
+        function handleCreateGroup() {
+            const name = document.getElementById('groupNameInput').value.trim() || 'Mon groupe';
+            const pseudo = document.getElementById('pseudo').value.trim() || 'Anonyme';
+            try {
+                GroupModule.createGroup(name, pseudo);
+                afterGroupJoined();
+            } catch (e) {
+                showToast(e.message);
+            }
+        }
+
+        function handleJoinGroup() {
+            const code = document.getElementById('joinCode').value.trim().toUpperCase();
+            const pseudo = document.getElementById('pseudo').value.trim() || 'Anonyme';
+            try {
+                GroupModule.joinGroup(code, pseudo);
+                afterGroupJoined();
+            } catch (e) {
+                showToast(e.message);
+            }
+        }
+
+        function afterGroupJoined() {
+            const group = GroupModule.getGroup();
+            if (!group) return;
+
+            // Update UI
+            document.getElementById('groupDisplayName').textContent = group.name;
+            document.getElementById('groupCodeDisplay').textContent = group.code;
+            document.getElementById('memberCount').textContent = group.members.length;
+            document.getElementById('userNameDisplay').textContent = group.members.find(m => m.isMe)?.name || '';
+
+            // Show nav
+            document.getElementById('navJournal').style.display = 'flex';
+            document.getElementById('navArchives').style.display = 'flex';
+            document.getElementById('navUser').style.display = 'flex';
+
+            const today = GroupModule.getToday();
+            if (!today?.question) {
+                startNewDayUI();
+            } else {
+                renderJournal();
+            }
+
+            navigate('journal');
+        }
+
+        async function startNewDayUI() {
+            document.getElementById('qContent').innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p class="loading-label">Génération de la question…</p>
+                </div>`;
+            document.getElementById('btnWrite').disabled = true;
+
+            try {
+                await GroupModule.startNewDay();
+                renderJournal();
+            } catch (e) {
+                document.getElementById('qContent').innerHTML = `
+                    <p class="error-text">Erreur : ${e.message}</p>
+                    <button class="btn-ghost" onclick="startNewDayUI()">Réessayer</button>`;
+            }
+        }
+
+        function renderJournal() {
+            const question = GroupModule.getQuestion();
+            if (!question) return;
+
+            document.getElementById('qContent').innerHTML = `
+                <p class="question-text">"${question}"</p>
+                <p class="question-timer">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>`;
+            document.getElementById('btnWrite').disabled = false;
+            document.getElementById('todayDate').textContent = GroupModule.getTodayDateFormatted();
+            renderMembers();
+        }
+
+        function renderMembers() {
+            const members = GroupModule.getMembers();
+            if (!members) return;
+
+            document.getElementById('membersList').innerHTML = members.map(m => {
+                const done = GroupModule.isMemberDone(m.name);
+                return `<div class="member-card">
+                    <div class="member-avatar">${m.name.charAt(0).toUpperCase()}</div>
+                    <div class="member-info">
+                        <span class="member-name">${m.name}${m.isMe ? ' (toi)' : ''}</span>
+                        <span class="member-status ${done ? 'status-done' : 'status-wait'}">
+                            ${done ? 'A répondu' : 'En attente'}
+                        </span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('myNote').value.trim();
+            const count = text ? text.split(/\s+/).filter(w => w).length : 0;
+            document.getElementById('wordCount').textContent = count + (count <= 1 ? ' mot' : ' mots');
+        }
+
+        function handleSubmitNote() {
+            const note = document.getElementById('myNote').value.trim();
+            if (!note) {
+                showToast('Écris quelque chose d\'abord');
+                return;
+            }
+            try {
+                GroupModule.submitNote(note);
+                renderMembers();
+                showToast('Réflexion enregistrée ✦');
+                navigate('results');
+            } catch (e) {
+                showToast(e.message);
+            }
+        }
+
+        function renderResults() {
+            const today = GroupModule.getToday();
+            if (!today) return;
+
+            document.getElementById('resultQuestion').textContent = '« ' + (today.question || '…') + ' ? »';
+            const responses = GroupModule.getResponses();
+            document.getElementById('resultSub').textContent =
+                responses.length + ' réponse' + (responses.length > 1 ? 's' : '') +
+                ' · ' + new Date(today.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+
+            if (responses.length === 0) {
+                document.getElementById('responsesList').innerHTML = `
+                    <p class="empty-state">Aucune réponse pour l'instant.</p>`;
+            } else {
+                document.getElementById('responsesList').innerHTML = responses.map(r =>
+                    `<div class="response-card">
+                        <div class="response-header">
+                            <span class="response-name">${r.name}</span>
+                        </div>
+                        <p class="response-text">${r.text}</p>
+                    </div>`
+                ).join('');
+            }
+
+            if (GroupModule.hasAnalysis()) {
+                renderAnalysis(GroupModule.getAnalysis());
+            } else {
+                document.getElementById('aiContent').innerHTML = `
+                    <div class="analysis-prompt">
+                        <p class="prompt-text">L'IA n'a pas encore analysé les réflexions du groupe.</p>
+                        <button class="btn-analysis" onclick="handleGenerateAnalysis()">
+                            ✦ Générer l'analyse
+                        </button>
+                    </div>`;
+                document.getElementById('aiSubtitle').textContent = 'En attente';
+            }
+        }
+
+        async function handleGenerateAnalysis() {
+            if (!GroupModule.getResponses().length) {
+                showToast('Aucune réponse à analyser');
+                return;
+            }
+
+            document.getElementById('aiContent').innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p class="loading-label">Claude réfléchit…</p>
+                </div>`;
+            document.getElementById('aiSubtitle').textContent = 'Analyse en cours…';
+
+            try {
+                const analysis = await GroupModule.generateAnalysis();
+                renderAnalysis(analysis);
+            } catch (e) {
+                document.getElementById('aiContent').innerHTML = `
+                    <p class="error-text">Erreur : ${e.message}</p>
+                    <button class="btn-ghost" onclick="handleGenerateAnalysis()">Réessayer</button>`;
+                document.getElementById('aiSubtitle').textContent = 'Erreur';
+            }
+        }
+
+        function renderAnalysis(data) {
+            document.getElementById('aiSubtitle').textContent =
+                `Synthèse · ${data.points_de_vue.length} philosophes`;
+
+            document.getElementById('aiContent').innerHTML = `
+                <div class="analysis-section">
+                    <span class="analysis-label">Synthèse du groupe</span>
+                    <p class="analysis-text">${data.synthese}</p>
+                </div>
+                ${data.points_de_vue.map(p => `
+                    <div class="analysis-section">
+                        <span class="analysis-label">${p.philosophe} · ${p.courant}</span>
+                        <p class="analysis-text">${p.analyse}</p>
+                    </div>
+                `).join('')}
+                <div class="analysis-section">
+                    <span class="analysis-label">Tension centrale</span>
+                    <p class="analysis-text">${data.tension_principale}</p>
+                </div>
+                <div class="analysis-section">
+                    <span class="analysis-label">Pour aller plus loin</span>
+                    <p class="analysis-text highlight">${data.pour_aller_plus_loin}</p>
+                </div>
+                <div class="philo-chips">
+                    ${data.points_de_vue.map(p => `<span class="philo-chip">${p.philosophe}</span>`).join('')}
+                </div>`;
+        }
+
+        function renderArchives() {
+            const list = document.getElementById('historyList');
+            const count = GroupModule.getHistoryCount();
+
+            if (count === 0) {
+                list.innerHTML = '<p class="empty-state archives-empty">Tes prochaines réflexions<br>apparaîtront ici,<br>jour après jour.</p>';
+                return;
+            }
+
+            const history = GroupModule.getState().history;
+            list.innerHTML = history.map((h, i) => `
+                <div class="archive-card" onclick="openHistorySession(${i})">
+                    <div class="archive-header">
+                        <span class="archive-date">${new Date(h.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+                        <span class="archive-meta">${h.responses.length} réponse${h.responses.length > 1 ? 's' : ''}</span>
+                    </div>
+                    <p class="archive-question">${h.question} ?</p>
+                    ${h.analysis ? '<span class="archive-badge">Analysé ✦</span>' : ''}
+                </div>
+            `).join('');
+        }
+
+        function openHistorySession(index) {
+            GroupModule.openHistorySession(index);
+            renderResults();
+            navigate('results');
+        }
+
+        function copyGroupCode() {
+            if (GroupModule.copyCode()) {
+                const code = GroupModule.getGroup().code;
+                showToast('Code copié : ' + code);
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function initializeUI() {
+            const group = GroupModule.getGroup();
+            if (group) {
+                document.getElementById('groupDisplayName').textContent = group.name;
+                document.getElementById('groupCodeDisplay').textContent = group.code;
+                document.getElementById('memberCount').textContent = group.members.length;
+                document.getElementById('userNameDisplay').textContent = group.members.find(m => m.isMe)?.name || '';
+
+                const today = GroupModule.getToday();
+                if (today?.question) {
+                    renderJournal();
+                }
+
+                document.getElementById('navJournal').style.display = 'flex';
+                document.getElementById('navArchives').style.display = 'flex';
+                document.getElementById('navUser').style.display = 'flex';
+
+                navigate('journal');
+            } else {
+                navigate('entry');
+            }
+        }
+    </script>
+</body>
+</html>
