@@ -1,1 +1,2 @@
 # philosophia
+more exploring ahead
