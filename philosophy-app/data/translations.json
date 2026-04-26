@@ -1,0 +1,216 @@
+{
+  "fr": {
+    "app": {
+      "name": "Essence",
+      "tagline": "Un espace pour penser, explorer, devenir"
+    },
+    "nav": {
+      "explore": "Explorer",
+      "questions": "Questions",
+      "reflect": "Réfléchir",
+      "home": "Accueil",
+      "group": "Groupe",
+      "synthesis": "Synthèse",
+      "history": "Historique"
+    },
+    "search": {
+      "placeholder": "Explore un concept... liberté, identité, bonheur",
+      "quickTags": "liberté, identité, bonheur, qui suis-je ?, vérité"
+    },
+    "welcome": {
+      "title": "Bienvenue dans votre espace de réflexion",
+      "subtitle": "Ici, pas de bonnes réponses. Juste des questions qui comptent.",
+      "exploreFreedom": "Explorer la liberté",
+      "whoAmI": "Qui suis-je ?",
+      "reflectionMode": "Mode réflexion"
+    },
+    "loading": "Réflexion en cours...",
+    "reflection": {
+      "title": "Mode Réflexion Guidée",
+      "subtitle": "Des questions pour aller plus profond",
+      "placeholder": "Clique sur une catégorie pour commencer",
+      "nextQuestion": "Une autre question"
+    },
+    "categories": {
+      "freedom": "Liberté",
+      "identity": "Identité",
+      "relations": "Relations",
+      "meaning": "Sens"
+    },
+    "group": {
+      "join": {
+        "title": "Réfléchis. Partage. Évolue.",
+        "subtitle": "Un carnet quotidien de pensées partagées entre amis.",
+        "pseudoPlaceholder": "Ton prénom ou pseudo",
+        "joinTab": "Rejoindre",
+        "createTab": "Créer",
+        "codePlaceholder": "Code du groupe · ex: AGORA-42",
+        "groupNamePlaceholder": "Nom du groupe",
+        "joinButton": "Rejoindre →",
+        "createButton": "Créer le groupe →",
+        "footer": "La question t'attend"
+      },
+      "daily": {
+        "questionLabel": "Question du jour",
+        "codeLabel": "Code du groupe",
+        "members": "Membres",
+        "writeButton": "Écrire ma réflexion →",
+        "generating": "Génération de la question...",
+        "dateFormat": "fr-FR"
+      },
+      "note": {
+        "back": "← Retour",
+        "placeholder": "Ta pensée commence ici...",
+        "word": "mot",
+        "words": "mots",
+        "submit": "Soumettre ✦"
+      },
+      "results": {
+        "tag": "Synthèse du jour",
+        "title": "Réflexions du groupe",
+        "questionRecap": "Récapitulatif de la question",
+        "responsesLabel": "Ce que le groupe a écrit",
+        "noResponses": "Aucune réponse pour l'instant.",
+        "aiTitle": "Analyse Philosophia",
+        "aiWaiting": "En attente",
+        "aiInProgress": "Analyse en cours...",
+        "generateAnalysis": "✦ Générer l'analyse IA",
+        "synthesis": "Synthèse du groupe",
+        "tension": "Tension centrale",
+        "goFurther": "Pour aller plus loin",
+        "philosopher": "philosophe",
+        "philosophers": "philosophes"
+      },
+      "history": {
+        "title": "Carnet de bord",
+        "subtitle": "Tes réflexions passées",
+        "empty": "Tes prochaines réflexions apparaîtront ici, jour après jour.",
+        "analyzed": "Analysé ✦",
+        "notAnalyzed": "Non analysé"
+      },
+      "status": {
+        "done": "Répondu",
+        "waiting": "En attente",
+        "me": "(moi)"
+      }
+    },
+    "toast": {
+      "codeCopied": "Code copié : ",
+      "enterText": "Écris quelque chose d'abord",
+      "saved": "Réflexion enregistrée ✦",
+      "noResponses": "Aucune réponse à analyser"
+    },
+    "errors": {
+      "retry": "Réessayer",
+      "generating": "Génération...",
+      "thinking": "Claude réfléchit..."
+    }
+  },
+  "en": {
+    "app": {
+      "name": "Essence",
+      "tagline": "A space to think, explore, become"
+    },
+    "nav": {
+      "explore": "Explore",
+      "questions": "Questions",
+      "reflect": "Reflect",
+      "home": "Home",
+      "group": "Group",
+      "synthesis": "Synthesis",
+      "history": "History"
+    },
+    "search": {
+      "placeholder": "Explore a concept... freedom, identity, happiness",
+      "quickTags": "freedom, identity, happiness, who am I?, truth"
+    },
+    "welcome": {
+      "title": "Welcome to your reflection space",
+      "subtitle": "Here, no right answers. Just questions that matter.",
+      "exploreFreedom": "Explore freedom",
+      "whoAmI": "Who am I?",
+      "reflectionMode": "Reflection mode"
+    },
+    "loading": "Reflection in progress...",
+    "reflection": {
+      "title": "Guided Reflection Mode",
+      "subtitle": "Questions to go deeper",
+      "placeholder": "Click a category to begin",
+      "nextQuestion": "Another question"
+    },
+    "categories": {
+      "freedom": "Freedom",
+      "identity": "Identity",
+      "relations": "Relations",
+      "meaning": "Meaning"
+    },
+    "group": {
+      "join": {
+        "title": "Reflect. Share. Evolve.",
+        "subtitle": "A daily journal of thoughts shared among friends.",
+        "pseudoPlaceholder": "Your name or nickname",
+        "joinTab": "Join",
+        "createTab": "Create",
+        "codePlaceholder": "Group code · ex: AGORA-42",
+        "groupNamePlaceholder": "Group name",
+        "joinButton": "Join →",
+        "createButton": "Create group →",
+        "footer": "The question awaits"
+      },
+      "daily": {
+        "questionLabel": "Question of the day",
+        "codeLabel": "Group code",
+        "members": "Members",
+        "writeButton": "Write my reflection →",
+        "generating": "Generating question...",
+        "dateFormat": "en-US"
+      },
+      "note": {
+        "back": "← Back",
+        "placeholder": "Your thought begins here...",
+        "word": "word",
+        "words": "words",
+        "submit": "Submit ✦"
+      },
+      "results": {
+        "tag": "Daily Synthesis",
+        "title": "Group Reflections",
+        "questionRecap": "Question recap",
+        "responsesLabel": "What the group wrote",
+        "noResponses": "No responses yet.",
+        "aiTitle": "Philosophia Analysis",
+        "aiWaiting": "Waiting",
+        "aiInProgress": "Analysis in progress...",
+        "generateAnalysis": "✦ Generate AI Analysis",
+        "synthesis": "Group synthesis",
+        "tension": "Central tension",
+        "goFurther": "To go further",
+        "philosopher": "philosopher",
+        "philosophers": "philosophers"
+      },
+      "history": {
+        "title": "Logbook",
+        "subtitle": "Your past reflections",
+        "empty": "Your next reflections will appear here, day after day.",
+        "analyzed": "Analyzed ✦",
+        "notAnalyzed": "Not analyzed"
+      },
+      "status": {
+        "done": "Answered",
+        "waiting": "Waiting",
+        "me": "(me)"
+      }
+    },
+    "toast": {
+      "codeCopied": "Code copied: ",
+      "enterText": "Write something first",
+      "saved": "Reflection saved ✦",
+      "noResponses": "No responses to analyze"
+    },
+    "errors": {
+      "retry": "Retry",
+      "generating": "Generating...",
+      "thinking": "Claude is thinking..."
+    }
+  }
+}

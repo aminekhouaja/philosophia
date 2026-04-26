@@ -101,6 +101,15 @@ function setupEventListeners() {
 		});
 	});
 
+	// Listen for language changes to update dynamic content
+	window.addEventListener('languageChanged', () => {
+		setupReflectionPanel();
+		// Refresh current view if needed
+		if (State.currentMode === 'reflect') {
+			switchMode('reflect');
+		}
+	});
+
 	// Reflection panel
 	elements.reflectionCategories.addEventListener("click", (e) => {
 		const card = e.target.closest(".category-card");
@@ -125,14 +134,15 @@ function switchMode(mode) {
 	if (mode === "reflect") {
 		elements.reflectionPanel.classList.remove("hidden");
 		elements.responseContainer.style.display = "none";
-		elements.searchInput.placeholder = "Explore en mode réflexion...";
+		if (typeof t === 'function') {
+			elements.searchInput.placeholder = t('search.placeholder');
+		}
 	} else {
 		elements.reflectionPanel.classList.add("hidden");
 		elements.responseContainer.style.display = "flex";
-		elements.searchInput.placeholder =
-			mode === "explore"
-				? "Explore un concept... liberté, identité, bonheur"
-				: "Pose une question profonde... Qui suis-je ?";
+		if (typeof t === 'function') {
+			elements.searchInput.placeholder = t('search.placeholder');
+		}
 	}
 }
 
@@ -241,51 +251,68 @@ function findInKnowledgeBase(normalizedQuery, originalQuery) {
 
 // ✅ CORRECTION : parsing correct de la réponse Groq
 async function fetchFromAI(query, contextType) {
-	try {
-		// Add timeout to prevent hanging
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+  if (!query || !contextType) {
+    console.warn("fetchFromAI: missing query or contextType");
+    return { type: "fallback", data: generateFallbackResponse(query) };
+  }
 
-		const response = await fetch(CONFIG.WORKER_URL, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				prompt: query,
-				context: contextType,
-				style: "philosophical_companion",
-			}),
-			signal: controller.signal,
-		});
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-		clearTimeout(timeoutId);
+    const response = await fetch(CONFIG.WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: query,
+        context: contextType,
+        style: "philosophical_companion",
+      }),
+      signal: controller.signal,
+    });
 
-		if (!response.ok) throw new Error("API error");
+    clearTimeout(timeoutId);
 
-		const data = await response.json();
+    if (!response.ok) throw new Error(`API error: ${response.status}`); // ✅ status code
 
-		// ✅ Format Groq : data.choices[0].message.content
-		const text = data.choices?.[0]?.message?.content;
-		if (!text) throw new Error("Réponse Groq vide ou inattendue");
+    let data;
+    try {
+      data = await response.json(); // ✅ isolated JSON parse
+    } catch {
+      throw new Error("Invalid JSON from proxy");
+    }
 
-		return {
-			type: "ai",
-			data: text,
-		};
-	} catch (error) {
-		if (error.name === "AbortError") {
-			console.warn("AI request timed out after 10 seconds");
-		} else {
-			console.error("fetchFromAI error:", error);
-		}
-		// Return fallback response
-		return {
-			type: "fallback",
-			data: generateFallbackResponse(query),
-		};
-	}
+    const text = data.choices?.[0]?.message?.content;
+    if (!text) throw new Error("Empty Groq response");
+
+    return { type: "ai", data: text };
+
+  } catch (error) {
+    if (error.name === "AbortError") {
+      console.warn("AI request timed out after 10 seconds");
+    } else {
+      console.error("fetchFromAI error:", error.message); // ✅ .message only, cleaner
+    }
+
+    try {
+      return { type: "fallback", data: generateFallbackResponse(query) }; // ✅ wrapped fallback
+    } catch {
+      return { type: "fallback", data: "Something went wrong." }; // ✅ last resort
+    }
+  }
 }
 
 function generateFallbackResponse(query) {
+	const lang = typeof I18NState !== 'undefined' ? I18NState.currentLang : 'fr';
+	if (lang === 'en') {
+		return {
+			title: "Reflection",
+			content: `"${query}" — a deep question.`,
+			reflection: `Take a moment to reflect. There is no single answer, but your path of discovery matters more than the destination.`,
+			perspective:
+				"Each question reveals as much about you as about the reality you explore.",
+		};
+	}
 	return {
 		title: "Réflexion",
 		content: `"${query}" — une question profonde.`,
@@ -312,6 +339,17 @@ function displayResponse(response, originalQuery) {
 }
 
 function createConceptCard(concept) {
+	const lang = typeof I18NState !== 'undefined' ? I18NState.currentLang : 'fr';
+	const labels = lang === 'en' ? {
+		simple: 'Simply put',
+		realLife: 'In real life',
+		perspective: 'A perspective'
+	} : {
+		simple: 'En simple',
+		realLife: 'Dans la vie réelle',
+		perspective: 'Une perspective'
+	};
+
 	const card = document.createElement("div");
 	card.className = "concept-card";
 	card.innerHTML = `
@@ -321,17 +359,17 @@ function createConceptCard(concept) {
         </div>
 
         <div class="concept-section">
-            <div class="section-label">En simple</div>
+            <div class="section-label">${labels.simple}</div>
             <div class="section-content highlight">${concept.simple}</div>
         </div>
 
         <div class="concept-section">
-            <div class="section-label">Dans la vie réelle</div>
+            <div class="section-label">${labels.realLife}</div>
             <div class="section-content">${concept.realLife}</div>
         </div>
 
         <div class="concept-section">
-            <div class="section-label">Une perspective</div>
+            <div class="section-label">${labels.perspective}</div>
             <div class="section-content">${concept.perspective}</div>
         </div>
 
@@ -400,15 +438,30 @@ function setupReflectionPanel() {
 	const kb = State.knowledgeBase;
 	if (!kb || !kb.reflectionPrompts) return;
 
+	const lang = typeof I18NState !== 'undefined' ? I18NState.currentLang : 'fr';
+	const questionsLabel = lang === 'en' ? 'questions' : 'questions';
+
 	elements.reflectionCategories.innerHTML = kb.reflectionPrompts
-		.map(
-			(cat) => `
+		.map((cat) => {
+			// Translate category name based on language
+			let categoryName = cat.category;
+			if (lang === 'en') {
+				const translations = {
+					'Liberté': 'Freedom',
+					'Identité': 'Identity',
+					'Relations': 'Relations',
+					'Sens': 'Meaning',
+					'Général': 'General'
+				};
+				categoryName = translations[cat.category] || cat.category;
+			}
+			return `
         <div class="category-card" data-category="${cat.category}">
-            <div class="category-name">${cat.category}</div>
-            <div class="category-count">${cat.prompts.length} questions</div>
+            <div class="category-name">${categoryName}</div>
+            <div class="category-count">${cat.prompts.length} ${questionsLabel}</div>
         </div>
-    `,
-		)
+    `;
+		})
 		.join("");
 }
 

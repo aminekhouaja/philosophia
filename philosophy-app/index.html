@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-i18n="html" data-i18n-attr="lang">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Essence — Votre compagnon philosophique</title>
+    <title>philosophia — Votre compagnon philosophique</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -17,22 +17,25 @@
 
     <div class="container">
         <header class="header">
-            <h1 class="logo">Essence</h1>
-            <p class="tagline">Un espace pour penser, explorer, devenir</p>
+            <div class="header-content">
+                <h1 class="logo" data-i18n="app.name">philosophia</h1>
+                <button id="langToggle" class="lang-toggle" onclick="toggleLanguage()" title="Switch to English">EN</button>
+            </div>
+            <p class="tagline" data-i18n="app.tagline">Un espace pour penser, explorer, devenir</p>
         </header>
 
         <nav class="nav-modes">
             <button class="mode-btn active" data-mode="explore">
                 <span class="mode-icon">🔍</span>
-                <span class="mode-text">Explorer</span>
+                <span class="mode-text" data-i18n="nav.explore">Explorer</span>
             </button>
             <button class="mode-btn" data-mode="question">
                 <span class="mode-icon">💭</span>
-                <span class="mode-text">Questions</span>
+                <span class="mode-text" data-i18n="nav.questions">Questions</span>
             </button>
             <button class="mode-btn" data-mode="reflect">
                 <span class="mode-icon">🌙</span>
-                <span class="mode-text">Réfléchir</span>
+                <span class="mode-text" data-i18n="nav.reflect">Réfléchir</span>
             </button>
         </nav>
 
@@ -44,6 +47,7 @@
                         type="text"
                         id="searchInput"
                         class="search-input"
+                        data-i18n-placeholder="search.placeholder"
                         placeholder="Explore un concept... liberté, identité, bonheur"
                         autocomplete="off"
                     >
@@ -71,18 +75,18 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <p class="loading-text">Réflexion en cours...</p>
+                    <p class="loading-text" data-i18n="loading">Réflexion en cours...</p>
                 </div>
 
                 <div class="response-container" id="responseContainer">
                     <!-- Welcome Card -->
                     <div class="welcome-card" id="welcomeCard">
-                        <h2>Bienvenue dans votre espace de réflexion</h2>
-                        <p>Ici, pas de bonnes réponses. Juste des questions qui comptent.</p>
+                        <h2 data-i18n="welcome.title">Bienvenue dans votre espace de réflexion</h2>
+                        <p data-i18n="welcome.subtitle">Ici, pas de bonnes réponses. Juste des questions qui comptent.</p>
                         <div class="welcome-prompts">
-                            <button class="welcome-btn" data-query="liberté">Explorer la liberté</button>
-                            <button class="welcome-btn" data-query="Qui suis-je ?">Qui suis-je ?</button>
-                            <button class="welcome-btn" data-query="reflect">Mode réflexion</button>
+                            <button class="welcome-btn" data-query="liberté" data-i18n="welcome.exploreFreedom">Explorer la liberté</button>
+                            <button class="welcome-btn" data-query="Qui suis-je ?" data-i18n="welcome.whoAmI">Qui suis-je ?</button>
+                            <button class="welcome-btn" data-query="reflect" data-i18n="welcome.reflectionMode">Mode réflexion</button>
                         </div>
                     </div>
                 </div>
@@ -91,15 +95,15 @@
             <!-- Reflection Mode Panel -->
             <section class="reflection-panel hidden" id="reflectionPanel">
                 <div class="reflection-header">
-                    <h3>Mode Réflexion Guidée</h3>
-                    <p>Des questions pour aller plus profond</p>
+                    <h3 data-i18n="reflection.title">Mode Réflexion Guidée</h3>
+                    <p data-i18n="reflection.subtitle">Des questions pour aller plus profond</p>
                 </div>
                 <div class="reflection-categories" id="reflectionCategories">
                     <!-- Categories loaded dynamically -->
                 </div>
                 <div class="reflection-question" id="reflectionQuestion">
-                    <p class="current-prompt">Clique sur une catégorie pour commencer</p>
-                    <button class="next-prompt-btn hidden" id="nextPrompt">Une autre question</button>
+                    <p class="current-prompt" data-i18n="reflection.placeholder">Clique sur une catégorie pour commencer</p>
+                    <button class="next-prompt-btn hidden" id="nextPrompt" data-i18n="reflection.nextQuestion">Une autre question</button>
                 </div>
             </section>
         </main>
@@ -136,7 +140,7 @@
         <!-- Welcome/Join Screen -->
         <section class="welcome-screen" id="welcomeScreen">
             <div>
-                <p class="welcome-logo">✦ Essence</p>
+                <p class="welcome-logo">✦ philosophia</p>
                 <h1 class="welcome-title">
                     Réfléchis.<br/><em>Partage.</em><br/>Évolue.
                 </h1>
@@ -148,13 +152,14 @@
                     class="field"
                     id="pseudo"
                     type="text"
+                    data-i18n-placeholder="group.join.pseudoPlaceholder"
                     placeholder="Ton prénom ou pseudo"
                 />
                 <div class="tab-row">
-                    <button class="tab-btn active" id="tabJoin" onclick="switchTab('join')">
+                    <button class="tab-btn active" id="tabJoin" onclick="switchTab('join')" data-i18n="group.join.joinTab">
                         Rejoindre
                     </button>
-                    <button class="tab-btn" id="tabCreate" onclick="switchTab('create')">
+                    <button class="tab-btn" id="tabCreate" onclick="switchTab('create')" data-i18n="group.join.createTab">
                         Créer
                     </button>
                 </div>
@@ -163,10 +168,11 @@
                         class="field"
                         id="joinCode"
                         type="text"
+                        data-i18n-placeholder="group.join.codePlaceholder"
                         placeholder="Code du groupe · ex: AGORA-42"
                         style="text-transform: uppercase; letter-spacing: 2px"
                     />
-                    <button class="btn-primary" onclick="handleJoinGroup()">
+                    <button class="btn-primary" onclick="handleJoinGroup()" data-i18n="group.join.joinButton">
                         Rejoindre →
                     </button>
                 </div>
@@ -175,14 +181,15 @@
                         class="field"
                         id="groupNameInput"
                         type="text"
+                        data-i18n-placeholder="group.join.groupNamePlaceholder"
                         placeholder="Nom du groupe"
                     />
-                    <button class="btn-primary" onclick="handleCreateGroup()">
+                    <button class="btn-primary" onclick="handleCreateGroup()" data-i18n="group.join.createButton">
                         Créer le groupe →
                     </button>
                 </div>
             </div>
-            <p class="welcome-footer">La question t'attend</p>
+            <p class="welcome-footer" data-i18n="group.join.footer">La question t'attend</p>
         </section>
 
         <!-- Group Screen -->
@@ -192,9 +199,9 @@
                 <h2 class="group-name" id="groupDisplayName">—</h2>
                 <span class="member-count">✦ <span id="memberCount">0</span></span>
             </div>
-            <p class="group-meta">Question du jour</p>
+            <p class="group-meta" data-i18n="group.daily.questionLabel">Question du jour</p>
             <div class="group-code-box" onclick="copyGroupCode()">
-                <span class="group-code-label">Code du groupe</span>
+                <span class="group-code-label" data-i18n="group.daily.codeLabel">Code du groupe</span>
                 <span class="group-code-val" id="groupCodeDisplay">— —</span>
             </div>
             <div class="question-block">
@@ -206,13 +213,13 @@
                             <div class="dot"></div>
                             <div class="dot"></div>
                         </div>
-                        <span style="font-family: var(--font-sans); font-size: 10px; color: var(--text-muted); letter-spacing: 1px;">Génération…</span>
+                        <span style="font-family: var(--font-sans); font-size: 10px; color: var(--text-muted); letter-spacing: 1px;" data-i18n="errors.generating">Génération…</span>
                     </div>
                 </div>
             </div>
-            <p class="members-title">Membres</p>
+            <p class="members-title" data-i18n="group.daily.members">Membres</p>
             <div id="membersList"></div>
-            <button class="btn-primary" id="btnWrite" onclick="goToNote()" disabled>
+            <button class="btn-primary" id="btnWrite" onclick="goToNote()" disabled data-i18n="group.daily.writeButton">
                 Écrire ma réflexion →
             </button>
         </section>
@@ -220,7 +227,7 @@
         <!-- Note Screen -->
         <section class="note-screen" id="noteScreen">
             <div class="note-header">
-                <button class="back-btn" onclick="goToGroup()">← Retour</button>
+                <button class="back-btn" onclick="goToGroup()" data-i18n="group.note.back">← Retour</button>
                 <p class="note-question" id="noteQuestionDisplay"></p>
             </div>
             <div class="note-body">
@@ -228,38 +235,39 @@
                 <textarea
                     class="note-ta"
                     id="myNote"
+                    data-i18n-placeholder="group.note.placeholder"
                     placeholder="Ta pensée commence ici…"
                     oninput="updateWordCount()"
                 ></textarea>
             </div>
             <div class="note-footer">
                 <span class="word-count" id="wordCount">0 mots</span>
-                <button class="btn-submit" onclick="handleSubmitNote()">Soumettre ✦</button>
+                <button class="btn-submit" onclick="handleSubmitNote()" data-i18n="group.note.submit">Soumettre ✦</button>
             </div>
         </section>
 
         <!-- Results Screen -->
         <section class="results-screen" id="resultsScreen">
             <div class="results-header">
-                <p class="results-tag">Synthèse du jour</p>
-                <h2 class="results-title">Réflexions du groupe</h2>
+                <p class="results-tag" data-i18n="group.results.tag">Synthèse du jour</p>
+                <h2 class="results-title" data-i18n="group.results.title">Réflexions du groupe</h2>
                 <p class="results-sub" id="resultSub">—</p>
             </div>
             <div class="results-scroll">
                 <div class="results-q-recap" id="resultQuestion"></div>
-                <p class="responses-label">Ce que le groupe a écrit</p>
+                <p class="responses-label" data-i18n="group.results.responsesLabel">Ce que le groupe a écrit</p>
                 <div id="responsesList"></div>
                 <div class="ai-block">
                     <div class="ai-header">
                         <div class="ai-icon">✦</div>
                         <div>
-                            <p class="ai-title-text">Analyse Philosophia</p>
-                            <p class="ai-subtitle" id="aiSubtitle">En attente</p>
+                            <p class="ai-title-text" data-i18n="group.results.aiTitle">Analyse Philosophia</p>
+                            <p class="ai-subtitle" id="aiSubtitle" data-i18n="group.results.aiWaiting">En attente</p>
                         </div>
                     </div>
                     <div id="aiContent">
                         <div style="text-align: center; padding: 16px 0;">
-                            <button class="btn-primary" style="width: auto; padding: 12px 24px; font-size: 15px;" onclick="handleGenerateAnalysis()">
+                            <button class="btn-primary" style="width: auto; padding: 12px 24px; font-size: 15px;" onclick="handleGenerateAnalysis()" data-i18n="group.results.generateAnalysis">
                                 ✦ Générer l'analyse IA
                             </button>
                         </div>
@@ -271,9 +279,9 @@
         <!-- History Screen -->
         <section class="history-screen" id="historyScreen">
             <div class="history-scroll">
-                <p class="tag">Carnet de bord</p>
-                <h2 class="results-title" style="margin-bottom: 4px;">Historique</h2>
-                <p class="results-sub" style="margin-bottom: 20px;">Tes réflexions passées</p>
+                <p class="tag" data-i18n="group.history.title">Carnet de bord</p>
+                <h2 class="results-title" style="margin-bottom: 4px;" data-i18n="nav.history">Historique</h2>
+                <p class="results-sub" style="margin-bottom: 20px;" data-i18n="group.history.subtitle">Tes réflexions passées</p>
                 <div id="historyList"></div>
             </div>
         </section>
@@ -282,11 +290,13 @@
         <div class="toast" id="toast"></div>
     </div>
 
+    <script src="js/i18n.js"></script>
     <script src="js/app.js"></script>
     <script src="js/group.js"></script>
     <script>
-        // Initialize Group Module on load
-        document.addEventListener('DOMContentLoaded', () => {
+        // Initialize i18n and Group Module on load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initI18N();
             GroupModule.init();
             initializePhilosophiaUI();
         });
@@ -418,8 +428,8 @@
             document.getElementById('membersList').innerHTML = members.map(m => {
                 const done = GroupModule.isMemberDone(m.name);
                 return `<div class="member-row">
-                    <span class="member-name">${m.name}${m.isMe ? ' (moi)' : ''}</span>
-                    <span class="${done ? 'badge-done' : 'badge-wait'}">${done ? 'Répondu' : 'En attente'}</span>
+                    <span class="member-name">${m.name}${m.isMe ? ' ' + t('group.status.me') : ''}</span>
+                    <span class="${done ? 'badge-done' : 'badge-wait'}">${done ? t('group.status.done') : t('group.status.waiting')}</span>
                 </div>`;
             }).join('');
         }
@@ -427,19 +437,19 @@
         function updateWordCount() {
             const text = document.getElementById('myNote').value.trim();
             const count = text ? text.split(/\s+/).filter(w => w).length : 0;
-            document.getElementById('wordCount').textContent = count + (count <= 1 ? ' mot' : ' mots');
+            document.getElementById('wordCount').textContent = count + ' ' + (count <= 1 ? t('group.note.word') : t('group.note.words'));
         }
 
         function handleSubmitNote() {
             const note = document.getElementById('myNote').value.trim();
             if (!note) {
-                showToast('Écris quelque chose d\'abord');
+                showToast(t('toast.enterText'));
                 return;
             }
             try {
                 GroupModule.submitNote(note);
                 renderMembers();
-                showToast('Réflexion enregistrée ✦');
+                showToast(t('toast.saved'));
                 switchScreen('results');
             } catch (e) {
                 showToast(e.message);
@@ -450,16 +460,19 @@
             const today = GroupModule.getToday();
             if (!today) return;
 
+            const lang = I18NState?.currentLang || 'fr';
+            const dateFormat = lang === 'en' ? 'en-US' : 'fr-FR';
+
             document.getElementById('resultQuestion').textContent = '« ' + (today.question || '…') + ' ? »';
             const responses = GroupModule.getResponses();
             document.getElementById('resultSub').textContent =
-                responses.length + ' réponse' + (responses.length > 1 ? 's' : '') +
-                ' · ' + new Date(today.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+                responses.length + ' ' + (responses.length > 1 ? t('group.results.responsesLabel').toLowerCase() : 'response') +
+                ' · ' + new Date(today.date).toLocaleDateString(dateFormat, { day: 'numeric', month: 'long' });
 
             if (responses.length === 0) {
                 document.getElementById('responsesList').innerHTML = `
                     <p style="font-family: var(--font-serif); font-size: 15px; color: var(--text-muted); font-style: italic; padding: 12px 0;">
-                        Aucune réponse pour l'instant.
+                        ${t('group.results.noResponses')}
                     </p>`;
             } else {
                 document.getElementById('responsesList').innerHTML = responses.map(r =>
@@ -476,16 +489,16 @@
                 document.getElementById('aiContent').innerHTML = `
                     <div style="text-align: center; padding: 16px 0;">
                         <button class="btn-primary" style="width: auto; padding: 12px 24px; font-size: 15px;" onclick="handleGenerateAnalysis()">
-                            ✦ Générer l'analyse IA
+                            ${t('group.results.generateAnalysis')}
                         </button>
                     </div>`;
-                document.getElementById('aiSubtitle').textContent = 'En attente';
+                document.getElementById('aiSubtitle').textContent = t('group.results.aiWaiting');
             }
         }
 
         async function handleGenerateAnalysis() {
             if (!GroupModule.getResponses().length) {
-                showToast('Aucune réponse à analyser');
+                showToast(t('toast.noResponses'));
                 return;
             }
 
@@ -495,10 +508,10 @@
                         <div class="dot"></div><div class="dot"></div><div class="dot"></div>
                     </div>
                     <p style="font-family: var(--font-sans); font-size: 10px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;">
-                        Claude réfléchit…
+                        ${t('errors.thinking')}
                     </p>
                 </div>`;
-            document.getElementById('aiSubtitle').textContent = 'Analyse en cours…';
+            document.getElementById('aiSubtitle').textContent = t('group.results.aiInProgress');
 
             try {
                 const analysis = await GroupModule.generateAnalysis();
@@ -516,12 +529,13 @@
         }
 
         function renderAnalysis(data) {
+            const philoCount = data.points_de_vue.length;
             document.getElementById('aiSubtitle').textContent =
-                `Synthèse · ${data.points_de_vue.length} philosophes`;
+                `${t('group.results.synthesis')} · ${philoCount} ${philoCount > 1 ? t('group.results.philosophers') : t('group.results.philosopher')}`;
 
             document.getElementById('aiContent').innerHTML = `
                 <div class="ai-section">
-                    <p class="ai-section-label">Synthèse du groupe</p>
+                    <p class="ai-section-label">${t('group.results.synthesis')}</p>
                     <p class="ai-section-text">${data.synthese}</p>
                 </div>
                 ${data.points_de_vue.map(p => `
@@ -531,11 +545,11 @@
                     </div>
                 `).join('')}
                 <div class="ai-section">
-                    <p class="ai-section-label">Tension centrale</p>
+                    <p class="ai-section-label">${t('group.results.tension')}</p>
                     <p class="ai-section-text">${data.tension_principale}</p>
                 </div>
                 <div class="ai-section">
-                    <p class="ai-section-label">Pour aller plus loin</p>
+                    <p class="ai-section-label">${t('group.results.goFurther')}</p>
                     <p class="ai-section-text" style="color: var(--accent-gold); font-style: italic;">
                         ${data.pour_aller_plus_loin}
                     </p>
@@ -548,18 +562,20 @@
         function renderHistory() {
             const list = document.getElementById('historyList');
             const count = GroupModule.getHistoryCount();
+            const lang = I18NState?.currentLang || 'fr';
+            const dateFormat = lang === 'en' ? 'en-US' : 'fr-FR';
 
             if (count === 0) {
-                list.innerHTML = '<p class="history-empty">Tes prochaines réflexions<br>apparaîtront ici,<br>jour après jour.</p>';
+                list.innerHTML = '<p class="history-empty">' + t('group.history.empty').replace(/\n/g, '<br>') + '</p>';
                 return;
             }
 
             const history = GroupModule.getState().history;
             list.innerHTML = history.map((h, i) => `
                 <div class="hist-card" onclick="openHistorySession(${i})">
-                    <p class="hist-date">${new Date(h.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+                    <p class="hist-date">${new Date(h.date).toLocaleDateString(dateFormat, { weekday: 'long', day: 'numeric', month: 'long' })}</p>
                     <p class="hist-q">${h.question} ?</p>
-                    <p class="hist-meta">${h.responses.length} réponse${h.responses.length > 1 ? 's' : ''} · ${h.analysis ? 'Analysé ✦' : 'Non analysé'}</p>
+                    <p class="hist-meta">${h.responses.length} ${h.responses.length > 1 ? 'responses' : 'response'} · ${h.analysis ? t('group.history.analyzed') : t('group.history.notAnalyzed')}</p>
                 </div>
             `).join('');
         }
@@ -573,7 +589,7 @@
         function copyGroupCode() {
             if (GroupModule.copyCode()) {
                 const code = GroupModule.getGroup().code;
-                showToast('Code copié : ' + code);
+                showToast(t('toast.codeCopied') + code);
             }
         }
 

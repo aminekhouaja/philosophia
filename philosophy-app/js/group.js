@@ -7,26 +7,33 @@
 // Configuration
 // ========================================
 const GROUP_CONFIG = {
-	QUESTION_PROMPT: `Génère UNE question philosophique pour des adolescents de 14-20 ans.
-Critères : accessible, profonde, liée à leur vie quotidienne, sans jargon, ouverte, 10-20 mots.
-Réponds UNIQUEMENT avec la question, sans guillemets ni ponctuation finale.`,
+		QUESTION_PROMPT: `Agis comme un penseur humaniste et psychologue. Génère UNE question introspective pour de jeunes adultes (18-30 ans). 
+Objectif : Susciter une réflexion mature et inconfortable sur la condition humaine et ses paradoxes universels (ex: liberté vs sécurité, amour vs vulnérabilité, quête de sens vs finitude).
+Critères : intemporelle, psychologiquement pointue, sans lieux communs ni jargon, 10 à 20 mots maximum.
+Format strict : Réponds UNIQUEMENT avec le texte de la question, sans aucun préambule, sans guillemets, et SANS AUCUNE ponctuation finale`,
 
-	ANALYSIS_PROMPT: `Tu es un professeur de philosophie bienveillant pour des adolescents (14-20 ans).
+	ANALYSIS_PROMPT: `Tu es un professeur de philosophie bienveillant pour des adolescents (18-30 ans).
 
 Question : "{question}"
 Réponses :
 {responses}
 
-Réponds UNIQUEMENT en JSON valide, sans markdown ni backticks :
+INSTRUCTIONS IMPORTANTES:
+1. Répon	
+2. Ne mets PAS de backticks markdown (pas de \`\`\`json)
+3. Utilise des guillemets doubles pour les chaînes
+4. Échappe les guillemets dans le texte avec \\"
+
+Structure requise:
 {
   "synthese": "2-3 phrases sur les tendances du groupe",
   "points_de_vue": [
-    {"philosophe": "Nom", "courant": "courant", "analyse": "2 phrases simples"},
-    {"philosophe": "Nom", "courant": "courant", "analyse": "2 phrases simples"},
-    {"philosophe": "Nom", "courant": "courant", "analyse": "2 phrases simples"}
+    {"philosophe": "Nom", "courant": "Courant philosophique", "analyse": "2 phrases simples"},
+    {"philosophe": "Nom", "courant": "Courant philosophique", "analyse": "2 phrases simples"},
+    {"philosophe": "Nom", "courant": "Courant philosophique", "analyse": "2 phrases simples"}
   ],
-  "tension_principale": "1 phrase sur la tension centrale",
-  "pour_aller_plus_loin": "1 question provocatrice"
+  "tension_principale": "1 phrase sur la tension centrale dans les réponses",
+  "pour_aller_plus_loin": "1 question provocatrice pour continuer la réflexion"
 }`,
 };
 
@@ -278,32 +285,37 @@ async function generateAnalysis() {
 
 	try {
 		const raw = await callAI(prompt, 1000);
-		console.log("Raw AI response:", raw); // Debug log
+		console.log("[generateAnalysis] Raw AI response:", raw);
 
-		const cleaned = raw.replace(/```json|```/g, "").trim();
-		console.log("Cleaned response:", cleaned); // Debug log
+		// Essayer d'extraire JSON de la réponse
+		let cleaned = raw;
+
+		// Enlever les blocs markdown
+		cleaned = cleaned.replace(/```json\s*/g, "");
+		cleaned = cleaned.replace(/```\s*/g, "");
+		cleaned = cleaned.trim();
+
+		// Si la réponse contient du texte avant/après le JSON, extraire juste le JSON
+		const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+		if (jsonMatch) {
+			cleaned = jsonMatch[0];
+		}
+
+		console.log("[generateAnalysis] Cleaned JSON:", cleaned);
 
 		let parsed;
 		try {
 			parsed = JSON.parse(cleaned);
+			// Vérifier que la structure est complète
+			if (!parsed.synthese || !parsed.points_de_vue || !Array.isArray(parsed.points_de_vue)) {
+				throw new Error("Structure JSON invalide");
+			}
 		} catch (jsonError) {
-			console.error("JSON parse error:", jsonError);
-			console.error("Failed to parse:", cleaned.substring(0, 500) + "...");
-			// Fallback: créer une analyse basique
-			parsed = {
-				synthese:
-					"Erreur de parsing de l'analyse AI. Les réponses du groupe montrent une diversité d'opinions.",
-				points_de_vue: [
-					{
-						philosophe: "Erreur",
-						courant: "Technique",
-						analyse: "L'analyse AI n'a pas pu être générée correctement.",
-					},
-				],
-				tension_principale: "Problème technique dans la génération d'analyse",
-				pour_aller_plus_loin:
-					"Réessayez plus tard ou discutez directement entre vous.",
-			};
+			console.error("[generateAnalysis] JSON parse error:", jsonError);
+			console.error("[generateAnalysis] Failed content:", cleaned.substring(0, 500));
+
+			// Fallback: créer une analyse basique à partir du texte brut
+			parsed = createFallbackAnalysis(raw, GroupState.today.question, responses);
 		}
 
 		GroupState.today.analysis = parsed;
@@ -319,6 +331,62 @@ function getAnalysis() {
 	return GroupState.today?.analysis || null;
 }
 
+// ========================================
+// Fallback Analysis Generator
+// ========================================
+function createFallbackAnalysis(rawText, question, responses) {
+	console.log("[createFallbackAnalysis] Creating fallback from raw text");
+
+	// Compter les philosophes mentionnés dans le texte
+	const philosopherPatterns = [
+		{ name: "Socrate", courant: "Socratique" },
+		{ name: "Platon", courant: "Platonicien" },
+		{ name: "Aristote", courant: "Aristotélicien" },
+		{ name: "Descartes", courant: "Cartésien" },
+		{ name: "Kant", courant: "Kantien" },
+		{ name: "Nietzsche", courant: "Nietzschéen" },
+		{ name: "Sartre", courant: "Existentialiste" },
+		{ name: "Camus", courant: "Absurde" },
+		{ name: "Epicure", courant: "Epicurien" },
+		{ name: "Stoïciens", courant: "Stoïcisme" },
+		{ name: "Heidegger", courant: "Phénoménologie" },
+	];
+
+	const foundPhilosophers = [];
+	philosopherPatterns.forEach(p => {
+		if (rawText.toLowerCase().includes(p.name.toLowerCase())) {
+			foundPhilosophers.push(p);
+		}
+	});
+
+	// Si aucun philosophe trouvé, en ajouter des génériques
+	if (foundPhilosophers.length === 0) {
+		foundPhilosophers.push(
+			{ name: "Socrate", courant: "Socratique" },
+			{ name: "Epicure", courant: "Epicurien" },
+			{ name: "Camus", courant: "Absurde" }
+		);
+	}
+
+	// Créer une synthèse basée sur les réponses réelles
+	const responseTexts = responses.map(r => r.text.substring(0, 50)).join("; ");
+	const synthese = `Les membres du groupe ont exploré "${question}" avec des perspectives variées. ${responses.length} réponses montrent une richesse de réflexion sur ce thème.`;
+
+	// Extraire des phrases du texte brut pour les analyses
+	const sentences = rawText.split(/[.!?]+/).filter(s => s.length > 20 && s.length < 200);
+
+	return {
+		synthese: synthese,
+		points_de_vue: foundPhilosophers.slice(0, 3).map((p, i) => ({
+			philosophe: p.name,
+			courant: p.courant,
+			analyse: sentences[i] || `Selon ${p.name}, cette question révèle des aspects profonds de notre condition humaine.`
+		})),
+		tension_principale: "La tension entre les différentes perspectives du groupe révèle la complexité de la question.",
+		pour_aller_plus_loin: `Comment votre groupe pourrait-il approfondir la réflexion sur "${question}" dans vos échanges futurs ?`
+	};
+}
+
 function hasAnalysis() {
 	return !!GroupState.today?.analysis;
 }
@@ -326,37 +394,75 @@ function hasAnalysis() {
 // ========================================
 // AI Helper (utilise le Worker existant)
 // ========================================
-async function callAI(prompt, maxTokens = 1000) {
+async function callAI(prompt, maxTokens = 5000) {
 	// Utilise le Worker URL configuré dans app.js
 	const workerUrl =
-		typeof CONFIG !== "undefined"
+		typeof CONFIG !== "undefined" && CONFIG.WORKER_URL
 			? CONFIG.WORKER_URL
 			: "https://philosophia-proxy.mohamedamine-khouaja.workers.dev";
 
-	// Add timeout to prevent hanging
-	const controller = new AbortController();
-	const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout for longer AI tasks
+	console.log(`[callAI] Calling worker with ${maxTokens} max tokens...`);
 
-	const response = await fetch(workerUrl, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			prompt: prompt,
-			max_tokens: maxTokens,
-		}),
-		signal: controller.signal,
-	});
+	try {
+		// Add timeout to prevent hanging
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-	clearTimeout(timeoutId);
+		const response = await fetch(workerUrl, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				prompt: prompt,
+				max_tokens: maxTokens,
+			}),
+			signal: controller.signal,
+		});
 
-	const data = await response.json();
+		clearTimeout(timeoutId);
 
-	if (data.error) {
-		throw new Error(data.error.message);
+		// Check HTTP status
+		if (!response.ok) {
+			const errorText = await response.text().catch(() => 'Unknown error');
+			throw new Error(`HTTP ${response.status}: ${errorText}`);
+		}
+
+		const data = await response.json();
+
+		// Check for API errors
+		if (data.error) {
+			console.error('[callAI] API Error:', data.error);
+			throw new Error(data.error.message || 'API Error');
+		}
+
+		// Check for valid response structure
+		if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+			console.error('[callAI] Invalid response structure:', data);
+			throw new Error('Invalid response from AI service');
+		}
+//AI response is expected to be in data.choices[0].message.content
+		const content = data.choices[0].message.content?.trim() || "";
+		console.log(`[callAI] Success, received ${content.length} chars`);
+		return content;
+
+	} catch (error) {
+		console.error('[callAI] Failed:', error);
+
+		// Provide user-friendly error messages
+		if (error.name === 'AbortError') {
+			throw new Error('La requête a pris trop de temps. Veuillez réessayer.');
+		}
+		if (error.message?.includes('429')) {
+			throw new Error('Trop de requêtes. Attendez quelques secondes et réessayez.');
+		}
+		if (error.message?.includes('401') || error.message?.includes('403')) {
+			throw new Error('Problème d\'authentification API. Contactez l\'administrateur.');
+		}
+		if (error.message?.includes('fetch') || error.message?.includes('network')) {
+			throw new Error('Problème de connexion. Vérifiez votre internet.');
+		}
+
+		throw error;
 	}
-
-	// Format OpenAI (retourné par le worker)
-	return data.choices?.[0]?.message?.content?.trim() || "";
 }
 
 // ========================================

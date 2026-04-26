@@ -140,6 +140,52 @@ body {
     letter-spacing: 0.05em;
 }
 
+/* Language Toggle */
+.header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.lang-toggle {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    color: var(--accent-gold);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.lang-toggle:hover {
+    background: var(--bg-glass-hover);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(212, 165, 116, 0.2);
+}
+
+@media (max-width: 600px) {
+    .header-content {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .lang-toggle {
+        position: static;
+        transform: none;
+        margin-top: 0.5rem;
+    }
+}
+
 /* Navigation */
 .nav-modes {
     display: flex;
